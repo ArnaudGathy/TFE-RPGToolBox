@@ -5,9 +5,6 @@ import '../style.css';
 
 import promise from 'es6-promise';
 import 'isomorphic-fetch';
-
-import PlayerService from '../PlayerService'; // Liste de joueurs temporaire
-
 promise.polyfill();
 
 class Initiative extends Component {
