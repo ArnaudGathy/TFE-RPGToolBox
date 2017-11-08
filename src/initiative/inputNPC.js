@@ -16,9 +16,9 @@ export const InputNPC = (props) => {
         />
         {' '}
         <FormControl
-          style={{ width: "70px" }}
+          style={{ width: "50px" }}
           type="text"
-          placeholder="Roll"
+          placeholder="Init"
           onChange={props.onChangeInitiative}
         />
         {' '}

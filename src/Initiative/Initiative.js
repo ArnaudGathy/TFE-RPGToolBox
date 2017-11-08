@@ -36,6 +36,19 @@ class Initiative extends Component {
     this.setState({initiative: event.target.value})
   }
 
+  sortPlayer() {
+    let newPlayerList = this.state.playerList.slice();
+    newPlayerList.sort((p1, p2) => {
+      return p2.roll - p1.roll;
+    })
+    this.setState({playerList: newPlayerList});
+  }
+
+  onChangeRoll(player, event) {
+    player.roll = event.target.value;
+    this.sortPlayer();
+  }
+
   getPlayersArray() {
     fetch('/api/players')
       .then(response => response.json())
@@ -61,7 +74,10 @@ class Initiative extends Component {
             />
           </div>
         </div>
-        <PlayerList list={this.state.playerList} />
+        <PlayerList 
+          list={this.state.playerList} 
+          onChange={this.onChangeRoll.bind(this)}
+        />
       </div>
     )
   }
