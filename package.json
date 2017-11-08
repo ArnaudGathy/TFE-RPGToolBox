@@ -15,12 +15,14 @@
   },
   "scripts": {
     "server": "nodemon index.js --exec babel-node --presets es2015,stage-2",
-	"react": "set port=4200 && react-scripts start"
+    "react": "set port=4200 && react-scripts start"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^4.10.0",
+    "eslint-plugin-react": "^7.4.0",
     "nodemon": "^1.12.1"
   }
 }

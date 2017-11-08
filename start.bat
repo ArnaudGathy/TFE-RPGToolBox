@@ -1,3 +1,2 @@
 @echo off
-@powershell Start-Process run-server.bat
-@powershell Start-Process run-react.bat
+concurrently "npm run server" "npm run react"
