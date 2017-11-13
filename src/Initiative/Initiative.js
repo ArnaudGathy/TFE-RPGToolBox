@@ -11,7 +11,7 @@ class Initiative extends Component {
     super(props);
     this.state = {
       initiative: "",
-      name: "zizi",
+      name: "",
       playerList: ""
     };
     this.getPlayersArray();
@@ -45,7 +45,7 @@ class Initiative extends Component {
   }
 
   onChangeRoll(player, event) {
-    player.roll = event.target.value;
+    player.roll = Number(event.target.value) + Number(player.initiative);
     this.sortPlayer();
   }
 

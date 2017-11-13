@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 const sheets = require('../sheetsConfig');
 import promise from 'es6-promise';
 import 'isomorphic-fetch';
@@ -11,7 +11,7 @@ export default class PlayersRouter {
         this.router.get('/', this.getAll);
     }
 
-    getAll(req, res, next) {
+    getAll(req, res) {
         let urls = [];
         let url = sheets.url.replace(sheets.BookReplace, sheets.book);
 
@@ -25,7 +25,13 @@ export default class PlayersRouter {
             .then(json => {
                 let player = {};
                 for(let value of json.feed.entry) {
-                    player[value.gsx$stat.$t] = value.gsx$value.$t;
+                    switch(value.gsx$stat.$t) {
+                        case "nom": player.name = value.gsx$value.$t;
+                        break;
+                        case "initiative": player.initiative = value.gsx$value.$t;
+                        break;
+                        default:
+                    }
                 }
                 return player;
             });

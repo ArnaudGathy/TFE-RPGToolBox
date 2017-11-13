@@ -7,7 +7,7 @@ export const PlayerFrame = (props) => (
         <div className="col-lg-3"></div>
         <div className="col-lg-3">
             <Button bsStyle="primary">
-                {props.player.nom} - {props.player.roll}
+                {props.player.name} - {props.player.roll}
             </Button>
         </div>
         <div className="col-lg-2 text-center">
