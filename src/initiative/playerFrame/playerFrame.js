@@ -10,6 +10,7 @@ export const PlayerFrame = (props) => (
     <div className="col-lg-3">
       <PlayerName
         player={props.player}
+        changeTurn={props.changeTurn}
       />
     </div>
     <div className="col-lg-2 text-center">

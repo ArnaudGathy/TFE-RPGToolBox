@@ -13,6 +13,7 @@ export class PlayerList extends Component {
             moveUp={this.props.moveUp}
             moveDown={this.props.moveDown}
             moveDelete={this.props.moveDelete}
+            changeTurn={this.props.changeTurn}
           />
         </div>
       );
