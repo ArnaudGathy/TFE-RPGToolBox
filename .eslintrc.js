@@ -52,7 +52,6 @@ module.exports = {
         ],
         "consistent-return": "error",
         "consistent-this": "error",
-        "curly": "error",
         "default-case": "error",
         "dot-location": [
             "error",
@@ -184,7 +183,6 @@ module.exports = {
         "no-sync": "error",
         "no-tabs": "error",
         "no-template-curly-in-string": "error",
-        "no-ternary": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "off",
         "no-undef-init": "error",

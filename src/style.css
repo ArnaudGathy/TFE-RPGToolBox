@@ -2,6 +2,15 @@
     margin-top : 10px;
 }
 
+.input-spacing {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
 .input-width {
     width: 20px;
+}
+
+.progress-maring {
+    margin-top: 2px;
 }

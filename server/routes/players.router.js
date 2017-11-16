@@ -30,6 +30,10 @@ export default class PlayersRouter {
                         break;
                         case "initiative": player.initiative = value.gsx$value.$t;
                         break;
+                        case "pv": player.maxHP = value.gsx$value.$t;
+                        break;
+                        case "conStat": player.conStat = value.gsx$value.$t;
+                        break;
                         default:
                     }
                 }

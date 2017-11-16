@@ -4,8 +4,7 @@ import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 const ActionBar = (props) => {
     return (
     <div className="row row-spacing">
-        <div className="col-lg-2"></div>
-        <div className="col-lg-3 text-center">
+        <div className="col-lg-3">
             <ButtonGroup>
                 <Button
                 onClick={props.previous}

@@ -5,6 +5,12 @@ const PlayerButton = (props) => {
     return (
     <ButtonGroup>
         <Button 
+        bsStyle="danger"
+        onClick={() => props.moveDelete(props.player)} >
+            <Glyphicon glyph="remove" />
+        </Button>
+
+        <Button 
         onClick={() => props.moveUp(props.player)} >
             <Glyphicon glyph="arrow-up" />
         </Button>
@@ -12,12 +18,6 @@ const PlayerButton = (props) => {
         <Button 
         onClick={() => props.moveDown(props.player)} >
             <Glyphicon glyph="arrow-down" />
-        </Button>
-        
-        <Button 
-        bsStyle="danger"
-        onClick={() => props.moveDelete(props.player)} >
-            <Glyphicon glyph="remove" />
         </Button>
     </ButtonGroup>
     )

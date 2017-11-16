@@ -6,11 +6,12 @@ const PlayerRoll = (props) => {
       <FormGroup>
         <InputGroup>
           <FormControl
+            style={{ width: "50px" }}
             type="text"
             placeholder="Roll"
             onChange={(event) => props.onChange(props.player, event)}
           />
-          <InputGroup.Addon style={{ width: "65px" }}>{props.player.initiative}</InputGroup.Addon>
+          <InputGroup.Addon style={{ width: "50px" }}>{props.player.initiative}</InputGroup.Addon>
         </InputGroup>
       </FormGroup>
   );

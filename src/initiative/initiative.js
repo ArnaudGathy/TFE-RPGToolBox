@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { PlayerList } from './playerlist';
 import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
+import { TurnManager } from './turnManager';
 import '../style.css';
 
 
@@ -9,9 +10,13 @@ export class Inititiative extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      inputNPCVisible: false,
       newPlayer: "",
       playerList: "",
+      started: false,
+      turnCounter: "0",
       turnOrder: "0"
+
     }
     this.getPlayersArray();
   }
@@ -28,6 +33,8 @@ export class Inititiative extends Component {
           player.turn = 0;
           player.buttonStyle = "warning";
           player.success = 0;
+          player.percentHP = 100;
+          player.hp = player.maxHP;
         }
         this.setState({ playerList: playerList });
       });
@@ -51,7 +58,7 @@ export class Inititiative extends Component {
   }
 
   moveUpTurn(player) {
-    if(player.isTurn) {
+    if (player.isTurn) {
       let turn = this.checkNextTurn(this.state.turnOrder);
       this.setTurns(turn);
     }
@@ -66,11 +73,11 @@ export class Inititiative extends Component {
       newPlayerList[index] = tempPlayer;
     }
     this.setState({ playerList: newPlayerList }, () => this.moveDownTurn(player));
-    
+
   }
 
   moveDownTurn(player) {
-    if(player.isTurn) {
+    if (player.isTurn) {
       let turn = this.checkPrevTurn(this.state.turnOrder);
       this.setTurns(turn);
     }
@@ -82,9 +89,9 @@ export class Inititiative extends Component {
   }
 
   moveDeleteTurn(player) {
-    if(player.isTurn) {
+    if (player.isTurn) {
       let turn = this.state.turnOrder;
-      if(turn == this.state.playerList.length) {
+      if (turn == this.state.playerList.length) {
         turn -= 1;
       }
       this.setTurns(turn);
@@ -153,9 +160,13 @@ export class Inititiative extends Component {
     this.setState({ turnOrder: turn });
   }
 
+  toggleStarted() {
+    this.setState({ started: !this.state.started });
+  }
 
   start() {
     this.setTurns(0);
+    this.toggleStarted();
   }
 
   stop() {
@@ -164,11 +175,12 @@ export class Inititiative extends Component {
       pl.isTurn = false
     });
     this.setState({ playerList: newPlayerList });
+    this.toggleStarted();
   }
 
   checkPrevTurn(turn) {
     let newTurn = turn;
-    if(turn < 0) {
+    if (turn < 0) {
       newTurn = this.state.playerList.length - 1;
     }
     return newTurn;
@@ -181,7 +193,7 @@ export class Inititiative extends Component {
 
   checkNextTurn(turn) {
     let newTurn = turn;
-    if(turn > this.state.playerList.length - 1) {
+    if (turn > this.state.playerList.length - 1) {
       newTurn = 0;
     }
     return newTurn;
@@ -192,12 +204,50 @@ export class Inititiative extends Component {
     this.setTurns(turn);
   }
 
+  changeHP(event, player) {
+    let newHP = event.target.value;
+    if (Number(newHP) > Number(player.maxHP)) {
+      newHP = player.maxHP;
+    }
+    player.hp = newHP;
+    player.percentHP = this.percentHP(player);
+    let newPlayerList = this.state.playerList.slice().filter((pl) => pl !== player);
+    newPlayerList.push(player);
+    this.sortPlayer();
+  }
+
+  percentHP(player) {
+    let percentHP = 0;
+    if(Number(player.hp) >= 0) {
+      percentHP = Math.round((Number(player.hp) / Number(player.maxHP)) * 100);
+    } else {
+      percentHP = 100 - Math.abs(Math.round(Number(player.hp) / Number(player.conStat) * 100));
+    }
+    return percentHP;
+  }
+
+  toggleInputNPC() {
+    this.setState({ inputNPCVisible: !this.state.inputNPCVisible });
+  }
+
   render() {
     return (
+
       <div className="container">
-        <InputNPC
-          onSubmit={this.addNPC.bind(this)}
-        />
+        <div className="row input-spacing row-spacing">
+          <div className="col-lg-2 text-center"></div>
+          <div className="col-lg-6">
+            {
+              this.state.started
+              ? <TurnManager />
+              : <InputNPC
+              onSubmit={this.addNPC.bind(this)}
+              started={this.state.started}
+            />
+            }
+            
+          </div>
+        </div>
 
         <PlayerList
           list={this.state.playerList}
@@ -206,9 +256,11 @@ export class Inititiative extends Component {
           moveDown={this.moveDown.bind(this)}
           moveDelete={this.moveDelete.bind(this)}
           changeTurn={this.changeTurn.bind(this)}
+          changeHP={this.changeHP.bind(this)}
+          started={this.state.started}
         />
 
-        <ActionBar 
+        <ActionBar
           start={this.start.bind(this)}
           stop={this.stop.bind(this)}
           previous={this.previous.bind(this)}

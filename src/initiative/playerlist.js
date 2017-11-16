@@ -14,6 +14,8 @@ export class PlayerList extends Component {
             moveDown={this.props.moveDown}
             moveDelete={this.props.moveDelete}
             changeTurn={this.props.changeTurn}
+            changeHP={this.props.changeHP}
+            started={this.props.started}
           />
         </div>
       );
