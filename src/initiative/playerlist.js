@@ -6,7 +6,7 @@ export class PlayerList extends Component {
     var playerList = "Fetching ...";
     if (this.props.list != "") {
       playerList = this.props.list.map((player) =>
-        <div key={player.name}>
+        <div key={player.name + player.hp + player.initiative}>
           <PlayerFrame
             player={player}
             onChange={this.props.onChange}

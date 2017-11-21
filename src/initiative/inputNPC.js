@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormControl, Form, FormGroup, Glyphicon, InputGroup } from 'react-bootstrap';
+import { FormControl, Glyphicon, InputGroup, Button } from 'react-bootstrap';
 import '../style.css';
 
 export class InputNPC extends Component {
@@ -20,82 +20,90 @@ export class InputNPC extends Component {
     this.setState({ initiative: event.target.value })
   }
 
+  onChangeHP(event) {
+    this.setState({ hp: event.target.value })
+  }
+
   createPlayer(event) {
-    event.preventDefault();
-    let { initiative, name, hp } = this.state
-    if (this.state.initiative === "") {
-      initiative = 0;
+    if(event.key === "Enter" || event.type === "click") {
+      let { initiative, name, hp } = this.state
+      if (this.state.initiative === "") {
+        initiative = 0;
+      }
+      if (this.state.name === "") {
+        name = "Dummy";
+      }
+      if (this.state.hp === "") {
+        hp = 10;
+      }
+      let newPlayer = {
+        buttonStyle: "warning",
+        hp: hp,
+        initiative: initiative,
+        isTurn: false,
+        maxHP: hp,
+        name: name,
+        percentHP: 100,
+        success: 0,
+        turn: 0
+      }
+      this.props.onSubmit(newPlayer);
     }
-    if (this.state.name === "") {
-      name = "Dummy";
-    }
-    if (this.state.hp === "") {
-      hp = 10;
-    }
-    let newPlayer = {
-      buttonStyle: "warning",
-      hp: hp,
-      initiative: initiative,
-      isTurn: false,
-      maxHP: hp,
-      name: name,
-      percentHP: 100,
-      success: 0,
-      turn: 0
-    }
-    this.props.onSubmit(newPlayer);
   }
 
   render() {
     return (
-      <Form
-        inline
-        onSubmit={this.createPlayer.bind(this)}
-      >
-        <FormGroup>
+      <div className="row row-spacing input-spacing">
+        <div className="col-lg-2 text-center">
+          <Button
+            bsStyle="success"
+            onClick={this.createPlayer.bind(this)}>
+            <Glyphicon glyph="plus" /> Add
+          </Button>
+        </div>
+        <div className="col-lg-3">
           <InputGroup>
             <FormControl
-              style={{ width: "160px" }}
+              style={{ width: "223px" }}
               type="text"
               placeholder="NPC Name"
               onChange={this.onChangeName.bind(this)}
+              onKeyPress={this.createPlayer.bind(this)}
             />
             <InputGroup.Addon>
               <Glyphicon glyph="user" />
             </InputGroup.Addon>
           </InputGroup>
-          {' '}
-          <InputGroup>
-            <FormControl
-              style={{ width: "55px" }}
-              type="text"
-              placeholder="INIT"
-              onChange={this.onChangeInitiative.bind(this)}
-            />
-            <InputGroup.Addon>
-              <Glyphicon glyph="stats" />
-            </InputGroup.Addon>
-          </InputGroup>
-          {' '}
+        </div>
+        <div className="col-lg-1 text-center">
           <InputGroup>
             <FormControl
               style={{ width: "50px" }}
               type="text"
               placeholder="HP"
-              onChange={this.onChangeInitiative.bind(this)}
+              onChange={this.onChangeHP.bind(this)}
+              onKeyPress={this.createPlayer.bind(this)}
             />
             <InputGroup.Addon>
               <Glyphicon glyph="heart" />
             </InputGroup.Addon>
           </InputGroup>
-          {' '}
-          <Button
-            type="submit"
-            bsStyle="success">
-            <Glyphicon glyph="plus" />
-          </Button>
-        </FormGroup>
-      </Form>
+        </div>
+        <div className="col-lg-1">
+          <InputGroup>
+            <FormControl
+              style={{ width: "50px" }}
+              type="text"
+              placeholder="INIT"
+              onChange={this.onChangeInitiative.bind(this)}
+              onKeyPress={this.createPlayer.bind(this)}
+            />
+            <InputGroup.Addon>
+              <Glyphicon glyph="stats" />
+            </InputGroup.Addon>
+          </InputGroup>
+        </div>
+      </div>
     )
   }
 }

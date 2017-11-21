@@ -14,3 +14,11 @@
 .progress-maring {
     margin-top: 2px;
 }
+
+.toggle-align {
+    vertical-align: middle;
+}
+
+.toggle-padding {
+    padding-top: 7px;
+}

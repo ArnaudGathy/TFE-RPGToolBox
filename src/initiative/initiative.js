@@ -10,13 +10,13 @@ export class Inititiative extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputNPCVisible: false,
+      extraRound: false,
       newPlayer: "",
       playerList: "",
+      playerTurn: "",
       started: false,
-      turnCounter: "0",
+      turnCounter: "1",
       turnOrder: "0"
-
     }
     this.getPlayersArray();
   }
@@ -122,9 +122,13 @@ export class Inititiative extends Component {
   }
 
   success(player) {
+    if(player.success == 1 && player.roll != 20) {
+      this.setState({extraRound: false});
+    }
     if (player.roll == 20) {
       player.success = 1;
       player.buttonStyle = "success";
+      this.setState({extraRound: true});
     } else if (player.roll == 1) {
       player.success = -1;
       player.buttonStyle = "danger";
@@ -142,6 +146,7 @@ export class Inititiative extends Component {
       pl.isTurn = false
     });
     newPlayerList.splice(index, 0, player);
+    this.setState({ playerTurn: player})
     this.setState({ turnOrder: index });
     this.setState({ playerList: newPlayerList });
   }
@@ -156,17 +161,17 @@ export class Inititiative extends Component {
     });
     players.splice(turn, 0, playerTurn);
 
+    this.setState({ playerTurn: playerTurn})
     this.setState({ playerList: players });
     this.setState({ turnOrder: turn });
   }
 
-  toggleStarted() {
-    this.setState({ started: !this.state.started });
-  }
-
   start() {
     this.setTurns(0);
-    this.toggleStarted();
+    this.setState({ started: true });
+    if(this.state.extraRound) {
+      this.setState({turnCounter: 0});
+    }
   }
 
   stop() {
@@ -175,13 +180,15 @@ export class Inititiative extends Component {
       pl.isTurn = false
     });
     this.setState({ playerList: newPlayerList });
-    this.toggleStarted();
+    this.setState({ started: false });
+    this.setState({ turnCounter: 1});
   }
 
   checkPrevTurn(turn) {
     let newTurn = turn;
     if (turn < 0) {
       newTurn = this.state.playerList.length - 1;
+      this.setState({ turnCounter: Number(this.state.turnCounter) - 1});
     }
     return newTurn;
   }
@@ -195,6 +202,7 @@ export class Inititiative extends Component {
     let newTurn = turn;
     if (turn > this.state.playerList.length - 1) {
       newTurn = 0;
+      this.setState({ turnCounter: Number(this.state.turnCounter) + 1});
     }
     return newTurn;
   }
@@ -218,7 +226,7 @@ export class Inititiative extends Component {
 
   percentHP(player) {
     let percentHP = 0;
-    if(Number(player.hp) >= 0) {
+    if (Number(player.hp) >= 0) {
       percentHP = Math.round((Number(player.hp) / Number(player.maxHP)) * 100);
     } else {
       percentHP = 100 - Math.abs(Math.round(Number(player.hp) / Number(player.conStat) * 100));
@@ -226,28 +234,29 @@ export class Inititiative extends Component {
     return percentHP;
   }
 
-  toggleInputNPC() {
-    this.setState({ inputNPCVisible: !this.state.inputNPCVisible });
+  extraRound() {
+    this.setState({ extraRound: !this.state.extraRound});
+  }
+
+  isExtraRound() {
+    return this.state.extraRound;
   }
 
   render() {
     return (
 
       <div className="container">
-        <div className="row input-spacing row-spacing">
-          <div className="col-lg-2 text-center"></div>
-          <div className="col-lg-6">
-            {
-              this.state.started
-              ? <TurnManager />
-              : <InputNPC
+        {
+          this.state.started
+            ? <TurnManager 
+              playerTurn={this.state.playerTurn}
+              turnCounter={this.state.turnCounter}
+            />
+            : <InputNPC
               onSubmit={this.addNPC.bind(this)}
               started={this.state.started}
             />
-            }
-            
-          </div>
-        </div>
+        }
 
         <PlayerList
           list={this.state.playerList}
@@ -265,6 +274,9 @@ export class Inititiative extends Component {
           stop={this.stop.bind(this)}
           previous={this.previous.bind(this)}
           next={this.next.bind(this)}
+          started={this.state.started}
+          extra={this.extraRound.bind(this)}
+          isExtra={this.isExtraRound.bind(this)}
         />
       </div>
     )

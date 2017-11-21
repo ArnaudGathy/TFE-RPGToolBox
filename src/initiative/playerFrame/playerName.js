@@ -24,8 +24,8 @@ const PlayerName = (props) => {
                 now={props.player.percentHP}
                 bsStyle={
                     (props.player.hp >= 0) 
-                    ? "danger" 
-                    : "info"
+                    ? "danger"
+                    : "primary"
                     }
             />
         </div>
