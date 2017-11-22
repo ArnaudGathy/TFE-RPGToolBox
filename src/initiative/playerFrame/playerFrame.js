@@ -1,42 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import PlayerRoll from './playerRoll';
 import PlayerName from './playerName';
 import PlayerButtons from './playerButtons';
 import PlayerHP from './playerHP';
 
-export const PlayerFrame = (props) => (
-  <div className="row row-spacing">
-    <div className="col-lg-2 text-center">
-      <PlayerButtons
-        player={props.player}
-        moveUp={props.moveUp}
-        moveDown={props.moveDown}
-        moveDelete={props.moveDelete}
-      />
-    </div>
-    <div className="col-lg-3 text-center">
-      <PlayerName
-        player={props.player}
-        changeTurn={props.changeTurn}
-        started={props.started}
-      />
-    </div>
-    <div className="col-lg-1 text-center">
-      <PlayerHP
-        player={props.player}
-        changeHP={props.changeHP}
-      />
-    </div>
-    <div className="col-lg-1">
-      {
-        props.started
-          ? null
-          : <PlayerRoll
-            player={props.player}
-            onChange={props.onChange}
+export class PlayerFrame extends Component {
+  render() {
+    return (
+      <div className="row row-spacing">
+        <div className="col-lg-2 text-center">
+          <PlayerButtons
+            player={this.props.player}
+            moveUp={this.props.moveUp}
+            moveDown={this.props.moveDown}
+            moveDelete={this.props.moveDelete}
           />
-      }
-    </div>
-  </div>
-)
+        </div>
+        <div className="col-lg-3 text-center">
+          <PlayerName
+            player={this.props.player}
+            changeTurn={this.props.changeTurn}
+            started={this.props.started}
+          />
+        </div>
+        <div className="col-lg-1 text-center">
+          <PlayerHP
+            player={this.props.player}
+            changeHP={this.props.changeHP}
+          />
+        </div>
+        <div className="col-lg-1">
+          {
+            this.props.started
+              ? null
+              : <PlayerRoll
+                ref={component => {
+                  this.playerRoll = component
+                }}
+                player={this.props.player}
+                onChange={this.props.onChange}
+                onKeyPress={this.props.onKeyPress}
+              />
+          }
+        </div>
+      </div>
+    )
+  }
+}

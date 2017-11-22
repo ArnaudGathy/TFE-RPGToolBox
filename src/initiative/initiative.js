@@ -7,17 +7,18 @@ import '../style.css';
 
 
 export class Inititiative extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      extraRound: false,
-      newPlayer: "",
-      playerList: "",
-      playerTurn: "",
-      started: false,
-      turnCounter: "1",
-      turnOrder: "0"
-    }
+  
+  state = {
+    extraRound: false,
+    newPlayer: "",
+    playerList: "",
+    playerTurn: "",
+    started: false,
+    turnCounter: "1",
+    turnOrder: "0"
+  };
+
+  componentWillMount() {
     this.getPlayersArray();
   }
 
@@ -213,6 +214,7 @@ export class Inititiative extends Component {
   }
 
   changeHP(event, player) {
+    event.preventDefault();
     let newHP = event.target.value;
     if (Number(newHP) > Number(player.maxHP)) {
       newHP = player.maxHP;
@@ -244,7 +246,6 @@ export class Inititiative extends Component {
 
   render() {
     return (
-
       <div className="container">
         {
           this.state.started
@@ -257,17 +258,22 @@ export class Inititiative extends Component {
               started={this.state.started}
             />
         }
-
-        <PlayerList
-          list={this.state.playerList}
-          onChange={this.onChangeRoll.bind(this)}
-          moveUp={this.moveUp.bind(this)}
-          moveDown={this.moveDown.bind(this)}
-          moveDelete={this.moveDelete.bind(this)}
-          changeTurn={this.changeTurn.bind(this)}
-          changeHP={this.changeHP.bind(this)}
-          started={this.state.started}
-        />
+        
+        {
+          this.state.playerList != ""
+          ?
+          <PlayerList
+            list={this.state.playerList}
+            onChange={this.onChangeRoll.bind(this)}
+            moveUp={this.moveUp.bind(this)}
+            moveDown={this.moveDown.bind(this)}
+            moveDelete={this.moveDelete.bind(this)}
+            changeTurn={this.changeTurn.bind(this)}
+            changeHP={this.changeHP.bind(this)}
+            started={this.state.started}
+          />
+          : "Fetching ..."
+        }
 
         <ActionBar
           start={this.start.bind(this)}
