@@ -27,10 +27,10 @@ export class PlayerList extends Component {
   listBuilder() {
     this.playerFrame = [];
     let playerList = [];
-    this.props.list.map((player) => {
+    this.props.list.map((player, index) => {
       playerList.push(
         <PlayerFrame
-          key={player.name + player.hp + player.initiative}
+          key={index}
           ref={component => {
             if(component !== null) this.playerFrame.push(component);
           }}
