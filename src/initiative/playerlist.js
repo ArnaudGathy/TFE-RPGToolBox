@@ -14,7 +14,7 @@ export class PlayerList extends Component {
   }
 
   onKeyPress(event) {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       let newCurrentFocus = this.state.currentFocus + 1;
       if(newCurrentFocus > this.playerFrame.length - 1) {
         newCurrentFocus = 0;
@@ -45,6 +45,7 @@ export class PlayerList extends Component {
           started={this.props.started}
         />
         );
+      return playerList;
     });
     return playerList;
   }

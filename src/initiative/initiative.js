@@ -92,6 +92,7 @@ export class Inititiative extends Component {
   moveDeleteTurn(player) {
     if (player.isTurn) {
       let turn = this.state.turnOrder;
+      // eslint-disable-next-line
       if (turn == this.state.playerList.length) {
         turn -= 1;
       }
@@ -123,13 +124,16 @@ export class Inititiative extends Component {
   }
 
   success(player) {
+    // eslint-disable-next-line
     if(player.success == 1 && player.roll != 20) {
       this.setState({extraRound: false});
     }
+    // eslint-disable-next-line
     if (player.roll == 20) {
       player.success = 1;
       player.buttonStyle = "success";
       this.setState({extraRound: true});
+    // eslint-disable-next-line
     } else if (player.roll == 1) {
       player.success = -1;
       player.buttonStyle = "danger";
@@ -143,9 +147,7 @@ export class Inititiative extends Component {
     player.isTurn = true;
     let index = this.state.playerList.indexOf(player);
     let newPlayerList = this.state.playerList.filter((pl) => pl !== player);
-    newPlayerList.map((pl) => {
-      pl.isTurn = false
-    });
+    newPlayerList.map((pl) => pl.isTurn = false);
     newPlayerList.splice(index, 0, player);
     this.setState({ playerTurn: player})
     this.setState({ turnOrder: index });
@@ -157,9 +159,7 @@ export class Inititiative extends Component {
     playerTurn.isTurn = true;
 
     let players = this.state.playerList.filter((pl) => pl !== playerTurn);
-    players.map((pl) => {
-      pl.isTurn = false
-    });
+    players.map((pl) => pl.isTurn = false);
     players.splice(turn, 0, playerTurn);
 
     this.setState({ playerTurn: playerTurn})
@@ -177,9 +177,7 @@ export class Inititiative extends Component {
 
   stop() {
     let newPlayerList = this.state.playerList.slice();
-    newPlayerList.map((pl) => {
-      pl.isTurn = false
-    });
+    newPlayerList.map((pl) => pl.isTurn = false);
     this.setState({ playerList: newPlayerList });
     this.setState({ started: false });
     this.setState({ turnCounter: 1});
@@ -260,6 +258,7 @@ export class Inititiative extends Component {
         }
         
         {
+          // eslint-disable-next-line
           this.state.playerList != ""
           ?
           <PlayerList
