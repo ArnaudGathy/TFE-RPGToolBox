@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { addMessage, sendMessage } from '../socket/api';
-import '../messenger/messengerStyle.css';
 
 
 export class Messenger extends Component {
@@ -13,8 +12,7 @@ export class Messenger extends Component {
     }
 
     renderList() {
-        let list = this.state.messageList.map((msg) => <li>{msg}</li>);
-        return list;
+        return this.state.messageList.map(msg => <li>{msg}</li>);
     }
 
     render() {
@@ -23,7 +21,7 @@ export class Messenger extends Component {
                 <ul id="messages">
                     {this.renderList()}
                 </ul>
-                <form onSubmit={(event) => sendMessage(event, this.messageInput)}>
+                <form className="form" onSubmit={(event) => sendMessage(event, this.messageInput)}>
                     <input
                         ref={node => {
                             this.messageInput = node

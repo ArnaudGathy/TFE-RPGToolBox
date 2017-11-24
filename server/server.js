@@ -36,11 +36,49 @@ export default class Server {
         io.listen(port);
         console.log("Socket.io listening on localhost:" + port);
 
+
+        let plist = [];
+        let started = false;
+
         io.on('connection', (socket) => {
+            io.emit('get players', plist);
+
             socket.on('chat message', (msg) => {
-                console.log(msg);
                 io.emit('chat message', msg);
             });
+            socket.on('send player list', list => {
+                if(!started) {
+                    plist = list;
+                    started = true;
+                }
+            });
+            socket.on('choose player', player => {
+                plist = plist.filter(pl => pl.name != player.name);
+                if(plist.length == 0) {
+                    started = false;
+                }
+                socket.player = player;
+            });
+            socket.on('get players', () => {
+                io.emit('get players', plist);
+            });
+            socket.on('get players late', () => {
+                if(started) {
+                    io.emit('get players', plist);
+                }
+            });
+            socket.on('stop rolls', () => {
+                plist = [];
+                started = false;
+                socket.player = "";
+                io.emit('get players', plist);
+            });
+            socket.on('disconnect', () => {
+                if(socket.player !== undefined) {
+                    plist.push(socket.player);
+                }
+                io.emit('get players', plist);
+            })
         });
     }
 }

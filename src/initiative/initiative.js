@@ -3,6 +3,7 @@ import { PlayerList } from './playerlist';
 import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
 import { TurnManager } from './turnManager';
+import { sendPlayerList, stopRolls } from '../socket/api';
 import '../style.css';
 
 
@@ -13,6 +14,7 @@ export class Inititiative extends Component {
     newPlayer: "",
     playerList: "",
     playerTurn: "",
+    isPromptStarted: false,
     started: false,
     turnCounter: "1",
     turnOrder: "0"
@@ -242,6 +244,16 @@ export class Inititiative extends Component {
     return this.state.extraRound;
   }
 
+  promptRoll() {
+    sendPlayerList(this.state.playerList);
+    this.setState({isPromptStarted: true});
+  }
+
+  stopPromptRoll() {
+    stopRolls();
+    this.setState({isPromptStarted: false});
+  }
+
   render() {
     return (
       <div className="container">
@@ -282,6 +294,9 @@ export class Inititiative extends Component {
           started={this.state.started}
           extra={this.extraRound.bind(this)}
           isExtra={this.isExtraRound.bind(this)}
+          promptRoll={this.promptRoll.bind(this)}
+          stopPromptRoll={this.stopPromptRoll.bind(this)}
+          isPromptStarted={this.state.isPromptStarted}
         />
       </div>
     )
