@@ -6,14 +6,7 @@ export class Header extends Component {
 
     render() {
         return (
-            <div></div>
-        )
-    }
-}
-
-export default Header;
-
-            {/* <Navbar inverse collapseOnSelect>
+            <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
                         <NavLink to="/">RPG ToolBox</NavLink>
@@ -29,4 +22,9 @@ export default Header;
                         <NavItem activeKey={1} eventKey={1}><NavLink to="/roll">Roll</NavLink></NavItem>
                     </Nav>
                 </Navbar.Collapse>
-            </Navbar> */}
+            </Navbar>
+        )
+    }
+}
+
+export default Header;

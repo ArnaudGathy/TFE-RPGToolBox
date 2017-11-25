@@ -21,6 +21,10 @@ export class RollMaker extends Component {
         choosePlayer(player);
     }
 
+    submitRoll(roll) {
+        window.alert(roll);
+    }
+
     renderPlayers() {
         return this.state.playerList.map((player, index) => {
             return (
@@ -42,6 +46,7 @@ export class RollMaker extends Component {
                     this.state.player != ""
                         ? <RollInput 
                             player={this.state.player}
+                            submitRoll={this.submitRoll.bind(this)}
                             />
                         : <PlayerList 
                             isWaiting={this.state.playerList.length == 0}
