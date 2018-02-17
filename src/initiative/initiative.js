@@ -259,6 +259,9 @@ export class Inititiative extends Component {
     return Math.max(...this.state.playerList.map((p) => path(['id'], p)));
   }
 
+  isNameUsed = (newName) =>
+    this.state.playerList.find((p) => p.name === newName);
+
   render() {
     return (
       <div className="container">
@@ -273,6 +276,7 @@ export class Inititiative extends Component {
               onSubmit={this.addNPC.bind(this)}
               started={this.state.started}
               lastID={this.lastID.bind(this)}
+              isNameUsed={this.isNameUsed}
             />
         }
         
