@@ -6,9 +6,7 @@ const PlayerName = (props) => {
         <div>
             <Button
                 onClick={() => props.changeTurn(props.player)}
-                bsStyle={props.player.isTurn 
-                    ? "default" 
-                    : props.player.buttonStyle}
+                bsStyle={props.player.isTurn ? "default" : props.player.buttonStyle}
                 block
             >
                 <strong>{props.player.name} </strong>
@@ -18,8 +16,11 @@ const PlayerName = (props) => {
                     : <Badge>{props.player.turn}</Badge>
                 }
             </Button>
+            {!props.player.conStat && (
             <ProgressBar
-                style={{ height: "7px" }}
+                style={{ 
+                    height: "0.4rem", 
+                    marginBottom: "-0.5rem"}}
                 className="progress-maring"
                 now={props.player.percentHP}
                 bsStyle={
@@ -28,6 +29,7 @@ const PlayerName = (props) => {
                     : "primary"
                     }
             />
+            )}
         </div>
     )
 }

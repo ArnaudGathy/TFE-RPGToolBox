@@ -37,17 +37,26 @@ export class Inititiative extends Component {
           player.turn = 0;
           player.buttonStyle = "warning";
           player.success = 0;
-          player.percentHP = 100;
-          player.hp = player.maxHP;
         }
         this.setState({ playerList: playerList });
       });
   }
 
-  addNPC(player) {
+  addNPC(player, autoRoll) {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.push(player);
-    this.setState({ playerList: newPlayerList }, console.log(newPlayerList));
+    this.setState({ playerList: newPlayerList }, () => {
+      if(autoRoll) {
+        let event = {
+          target: 
+            {
+              value: Math.floor((Math.random() * 20) + 1)
+            }
+          }
+        this.onChangeRoll(player, event)
+        this.sortPlayer();
+      }
+    })
   }
 
   moveUp(player) {

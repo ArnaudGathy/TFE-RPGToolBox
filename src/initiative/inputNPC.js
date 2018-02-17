@@ -8,7 +8,8 @@ export class InputNPC extends Component {
     this.state = {
       hp: "",
       initiative: "",
-      name: ""
+      name: "",
+      isRandom: true
     }
   }
 
@@ -24,6 +25,10 @@ export class InputNPC extends Component {
     this.setState({ hp: event.target.value })
   }
 
+  toggleRandom = () => {
+    this.setState({ isRandom: !this.state.isRandom})
+
+  }
   createPlayer(event) {
     if(event.key === "Enter" || event.type === "click") {
       let { initiative, name, hp } = this.state
@@ -38,7 +43,7 @@ export class InputNPC extends Component {
           let nameString = name.replace(/[0-9]/g, '');
           name = `${nameString} ${number}`;
         } else {
-          name = `${name} 1`;
+          name = `${name} 2`;
         }
       }
         
@@ -54,7 +59,7 @@ export class InputNPC extends Component {
         success: 0,
         turn: 0
       }
-      this.props.onSubmit(newPlayer);
+      this.props.onSubmit(newPlayer, this.state.isRandom);
     }
   }
 
@@ -66,6 +71,14 @@ export class InputNPC extends Component {
             bsStyle="success"
             onClick={this.createPlayer.bind(this)}>
             <Glyphicon glyph="plus" /> Add
+          </Button>
+          <Button
+            bsStyle="default"
+            active={this.state.isRandom}
+            onClick={this.toggleRandom}
+            style={{ margin: "0 0 0 1rem"} }
+          >
+            <Glyphicon glyph="random" />
           </Button>
         </div>
         <div className="col-lg-3">
@@ -109,6 +122,8 @@ export class InputNPC extends Component {
               <Glyphicon glyph="stats" />
             </InputGroup.Addon>
           </InputGroup>
+        </div>
+        <div className="col-lg-1">
         </div>
       </div>
     )
