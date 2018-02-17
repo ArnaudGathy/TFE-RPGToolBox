@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 export class Header extends Component {
@@ -9,17 +9,17 @@ export class Header extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <NavLink to="/">RPG ToolBox</NavLink>
+                        <Link to="/">RPG ToolBox</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem activeKey={1} eventKey={1}><NavLink to="/init">Initiative</NavLink></NavItem>
-                        <NavItem activeKey={1} eventKey={2}><NavLink to="/messenger">Messenger</NavLink></NavItem>
+                        <NavItem componentClass="span" activeKey={1} eventKey={1}><Link to="/init">Initiative</Link></NavItem>
+                        <NavItem componentClass="span" activeKey={1} eventKey={2}><Link to="/messenger">Messenger</Link></NavItem>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem activeKey={1} eventKey={1}><NavLink to="/roll">Roll</NavLink></NavItem>
+                        <NavItem componentClass="span" activeKey={1} eventKey={1}><Link to="/roll">Roll</Link></NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

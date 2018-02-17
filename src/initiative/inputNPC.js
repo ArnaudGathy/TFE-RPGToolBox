@@ -27,22 +27,14 @@ export class InputNPC extends Component {
   createPlayer(event) {
     if(event.key === "Enter" || event.type === "click") {
       let { initiative, name, hp } = this.state
-      if (this.state.initiative === "") {
-        initiative = 0;
-      }
-      if (this.state.name === "") {
-        name = "Dummy";
-      }
-      if (this.state.hp === "") {
-        hp = 10;
-      }
       let newPlayer = {
+        id: this.props.lastID() + 1,
         buttonStyle: "warning",
-        hp: hp,
-        initiative: initiative,
+        hp: hp || 10,
+        initiative: initiative || 0,
         isTurn: false,
-        maxHP: hp,
-        name: name,
+        maxHP: hp || 10,
+        name: name || "Dummy",
         percentHP: 100,
         success: 0,
         turn: 0

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { choosePlayer, getPlayers, isPlayerSelected } from '../socket/api';
+import { choosePlayer, getPlayers } from '../socket/api';
 import PlayerList from '../rollMaker/playerList';
 import RollInput from '../rollMaker/rollInput';
 
@@ -43,13 +43,13 @@ export class RollMaker extends Component {
         return (
             <div>
                 {
-                    this.state.player != ""
+                    this.state.player !== ""
                         ? <RollInput 
                             player={this.state.player}
                             submitRoll={this.submitRoll.bind(this)}
                             />
                         : <PlayerList 
-                            isWaiting={this.state.playerList.length == 0}
+                            isWaiting={this.state.playerList.length === 0}
                             render={this.renderPlayers.bind(this)}
                             />
                 }

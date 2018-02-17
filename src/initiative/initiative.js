@@ -4,6 +4,7 @@ import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
 import { TurnManager } from './turnManager';
 import { sendPlayerList, stopRolls } from '../socket/api';
+import {path} from 'ramda';
 import '../style.css';
 
 
@@ -46,7 +47,7 @@ export class Inititiative extends Component {
   addNPC(player) {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.push(player);
-    this.setState({ playerList: newPlayerList });
+    this.setState({ playerList: newPlayerList }, console.log(newPlayerList));
   }
 
   moveUp(player) {
@@ -254,9 +255,14 @@ export class Inititiative extends Component {
     this.setState({isPromptStarted: false});
   }
 
+  lastID() {
+    return Math.max(...this.state.playerList.map((p) => path(['id'], p)));
+  }
+
   render() {
     return (
       <div className="container">
+
         {
           this.state.started
             ? <TurnManager 
@@ -266,6 +272,7 @@ export class Inititiative extends Component {
             : <InputNPC
               onSubmit={this.addNPC.bind(this)}
               started={this.state.started}
+              lastID={this.lastID.bind(this)}
             />
         }
         

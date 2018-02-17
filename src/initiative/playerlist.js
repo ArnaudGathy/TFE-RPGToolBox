@@ -14,23 +14,23 @@ export class PlayerList extends Component {
   }
 
   onKeyPress(event) {
-    // if (event.key === "Enter") {
-    //   let newCurrentFocus = this.state.currentFocus + 1;
-    //   if(newCurrentFocus > this.playerFrame.length - 1) {
-    //     newCurrentFocus = 0;
-    //   }
-    //   this.playerFrame[newCurrentFocus].playerRoll.input.focus()
-    //   this.setState({currentFocus: newCurrentFocus});
-    // }
+    if (event.key === "Enter") {
+      let newCurrentFocus = this.state.currentFocus + 1;
+      if(newCurrentFocus > this.playerFrame.length - 1) {
+        newCurrentFocus = 0;
+      }
+      this.playerFrame[newCurrentFocus].playerRoll.input.focus()
+      this.setState({currentFocus: newCurrentFocus});
+    }
   }
 
   listBuilder() {
     this.playerFrame = [];
     let playerList = [];
-    this.props.list.map((player, index) => {
+    this.props.list.map((player) => {
       playerList.push(
         <PlayerFrame
-          key={index}
+          key={player.id}
           ref={component => {
             if(component !== null) this.playerFrame.push(component);
           }}

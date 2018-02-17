@@ -26,6 +26,8 @@ export default class PlayersRouter {
                 let player = {};
                 for(let value of json.feed.entry) {
                     switch(value.gsx$stat.$t) {
+                        case "id": player.id = value.gsx$value.$t;
+                        break;
                         case "nom": player.name = value.gsx$value.$t;
                         break;
                         case "initiative": player.initiative = value.gsx$value.$t;
