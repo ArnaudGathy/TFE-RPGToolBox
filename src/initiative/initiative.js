@@ -3,7 +3,7 @@ import { PlayerList } from './playerlist';
 import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
 import { TurnManager } from './turnManager';
-import { sendPlayerList, stopRolls } from '../socket/api';
+import { sendPlayerList, stopRolls, receiveRoll } from '../socket/api';
 import {path} from 'ramda';
 import '../style.css';
 
@@ -22,7 +22,16 @@ export class Inititiative extends Component {
   };
 
   componentWillMount() {
+    stopRolls();
     this.getPlayersArray();
+    receiveRoll((player, roll) => {
+      this.forceChangeRoll(player, roll)
+      let newPlayerList = this.state.playerList.slice();
+      newPlayerList = newPlayerList.filter((p) => p.id !== player.id)
+      newPlayerList.push(player)
+      this.setState({ playerList: newPlayerList })
+      this.sortPlayer();
+    });
   }
 
   getPlayersArray() {
@@ -47,14 +56,7 @@ export class Inititiative extends Component {
     newPlayerList.push(player);
     this.setState({ playerList: newPlayerList }, () => {
       if(autoRoll) {
-        let event = {
-          target: 
-            {
-              value: Math.floor((Math.random() * 20) + 1)
-            }
-          }
-        this.onChangeRoll(player, event)
-        this.sortPlayer();
+        this.forceChangeRoll(player)
       }
     })
   }
@@ -132,6 +134,17 @@ export class Inititiative extends Component {
     player.buttonStyle = "info";
 
     this.success(player);
+    this.sortPlayer();
+  }
+
+  forceChangeRoll(player, roll = null) {
+    let event = {
+      target: 
+        {
+          value: roll || Math.floor((Math.random() * 20) + 1)
+        }
+      }
+    this.onChangeRoll(player, event)
     this.sortPlayer();
   }
 
@@ -255,7 +268,7 @@ export class Inititiative extends Component {
   }
 
   promptRoll() {
-    sendPlayerList(this.state.playerList);
+    sendPlayerList(this.state.playerList.filter(p => p.conStat));
     this.setState({isPromptStarted: true});
   }
 

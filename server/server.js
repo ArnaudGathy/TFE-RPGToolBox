@@ -78,7 +78,10 @@ export default class Server {
                     plist.push(socket.player);
                 }
                 io.emit('get players', plist);
-            })
+            });
+            socket.on('send roll', roll => {
+                io.emit('receive roll', socket.player, roll);
+            });
         });
     }
 }

@@ -35,3 +35,13 @@ export function getPlayers(cb) {
         cb(plist);
     });
 }
+
+export function sendRoll(roll) {
+    socket.emit('send roll', roll)
+}
+
+export function receiveRoll(cb) {
+    socket.on('receive roll', (player, roll) => {
+        cb(player, roll)
+    })
+}

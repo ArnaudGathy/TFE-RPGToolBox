@@ -1,15 +1,32 @@
 import React from 'react';
+import { PageHeader, ListGroup, Alert } from 'react-bootstrap';
 
 const PlayerList = (props) => {
-    return (
-        <ul className="list-buttons">
-            {
-                props.isWaiting
-                    ? "Waiting for GM prompt ..."
-                    : props.render()
-            }
-        </ul>
-    )
+  return (
+    <React.Fragment>
+      {
+        props.isWaiting
+          ? (
+            <div className="col-xs-12">
+              <Alert bsStyle="info">
+                Waiting for GM prompt ...
+              </Alert>
+            </div>
+
+          )
+          : (
+            <div className="col-xs-12">
+              <PageHeader>
+                Who are you ?
+              </PageHeader>
+              <ListGroup>
+                {props.render()}
+              </ListGroup>
+            </div>
+          )
+      }
+    </React.Fragment>
+  )
 }
 
 export default PlayerList;
