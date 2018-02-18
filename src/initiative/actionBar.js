@@ -5,7 +5,7 @@ import "react-toggle/style.css"
 
 const ActionBar = (props) => {
   return (
-    <div className="row row-spacing">
+    <div className="row row-spacing large-top-spacing">
       <div className="col-lg-2 text-center">
         {
           props.started
@@ -37,7 +37,7 @@ const ActionBar = (props) => {
       {
         props.started
           ? null
-          : <div className="col-lg-3 toggle-padding">
+          : <div className="col-lg-2 toggle-padding">
             <label>
               <Toggle
                 onChange={props.extra}

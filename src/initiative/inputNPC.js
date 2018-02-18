@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { FormControl, Glyphicon, InputGroup, Button } from 'react-bootstrap';
+import React, { Component, Fragment } from 'react';
+import { FormControl, Glyphicon, InputGroup, Button, Badge, PageHeader } from 'react-bootstrap';
 import '../style.css';
 
 export class InputNPC extends Component {
@@ -9,7 +9,16 @@ export class InputNPC extends Component {
       hp: "",
       initiative: "",
       name: "",
-      isRandom: true
+      isRandom: true,
+      roll: ""
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.started) {
+      this.setState({ isRandom: false })
+    } else {
+      this.setState({ isRandom: true })
     }
   }
 
@@ -26,19 +35,19 @@ export class InputNPC extends Component {
   }
 
   toggleRandom = () => {
-    this.setState({ isRandom: !this.state.isRandom})
+    this.setState({ isRandom: !this.state.isRandom })
 
   }
   createPlayer(event) {
-    if(event.key === "Enter" || event.type === "click") {
+    if (event.key === "Enter" || event.type === "click") {
       let { initiative, name, hp } = this.state
 
-      if(!name) {
+      if (!name) {
         name = 'Dummy';
       }
 
-      while(this.props.isNameUsed(name)) {
-        if((/\d/).test(name)) {
+      while (this.props.isNameUsed(name)) {
+        if ((/\d/).test(name)) {
           let number = Number(name.replace(/^\D+/g, '')) + 1;
           let nameString = name.replace(/[0-9]/g, '');
           name = `${nameString} ${number}`;
@@ -46,87 +55,140 @@ export class InputNPC extends Component {
           name = `${name} 2`;
         }
       }
-        
+
+      console.log(hp)
+      let isPlayer = false;
+      if(hp === "") {
+        isPlayer = true;
+      }
+
       let newPlayer = {
         id: this.props.lastID() + 1,
         buttonStyle: "warning",
-        hp: hp || 10,
+        hp: hp,
         initiative: initiative || 0,
         isTurn: false,
-        maxHP: hp || 10,
+        maxHP: hp,
         name: name,
         percentHP: 100,
         success: 0,
         turn: 0,
-        isPlayer: false
+        isPlayer: isPlayer
       }
-      this.props.onSubmit(newPlayer, this.state.isRandom);
+      this.props.onSubmit(newPlayer, this.state.isRandom, this.state.roll);
     }
+  }
+
+  handleChangeRoll = (event) => {
+    this.setState({roll: event.target.value})
   }
 
   render() {
     return (
-      <div className="row row-spacing input-spacing">
-        <div className="col-lg-2 text-center">
-          <Button
-            bsStyle="success"
-            onClick={this.createPlayer.bind(this)}>
-            <Glyphicon glyph="plus" /> Add
+      <Fragment>
+        <div className="row row-spacing input-spacing large-bottom-spacing">
+          <div className="col-lg-2 text-center">
+            <Button
+              bsStyle="success"
+              onClick={this.createPlayer.bind(this)}>
+              <Glyphicon glyph="plus" /> Add
           </Button>
-          <Button
-            bsStyle="default"
-            active={this.state.isRandom}
-            onClick={this.toggleRandom}
-            style={{ margin: "0 0 0 1rem"} }
-          >
-            <Glyphicon glyph="random" />
-          </Button>
+            <Button
+              bsStyle="default"
+              active={this.state.isRandom}
+              onClick={this.toggleRandom}
+              style={{ margin: "0 0 0 1rem" }}
+            >
+              <Glyphicon glyph="random" />
+            </Button>
+          </div>
+          <div className="col-lg-3">
+            <InputGroup>
+              <FormControl
+                style={{ width: "223px" }}
+                type="text"
+                placeholder="NPC Name"
+                onChange={this.onChangeName.bind(this)}
+                onKeyPress={this.createPlayer.bind(this)}
+              />
+              <InputGroup.Addon>
+                <Glyphicon glyph="user" />
+              </InputGroup.Addon>
+            </InputGroup>
+          </div>
+          <div className="col-lg-1">
+            <InputGroup>
+              <FormControl
+                style={{ width: "50px" }}
+                type="text"
+                placeholder="Init"
+                onChange={this.onChangeInitiative.bind(this)}
+                onKeyPress={this.createPlayer.bind(this)}
+              />
+              <InputGroup.Addon>
+                <Glyphicon glyph="stats" />
+              </InputGroup.Addon>
+            </InputGroup>
+          </div>
+          <div className="col-lg-1 text-center">
+            <InputGroup>
+              <FormControl
+                style={{ width: "50px" }}
+                type="text"
+                placeholder="HP"
+                onChange={this.onChangeHP.bind(this)}
+                onKeyPress={this.createPlayer.bind(this)}
+              />
+              <InputGroup.Addon>
+                <Glyphicon glyph="heart" />
+              </InputGroup.Addon>
+            </InputGroup>
+          </div>
+          {this.props.started && (
+            <Fragment>
+              <div className="col-lg-1">
+                <InputGroup>
+                  <FormControl
+                    style={{ width: "50px" }}
+                    type="text"
+                    placeholder="Dur"
+                    onChange={this.onChangeHP.bind(this)} // TODO
+                    onKeyPress={this.createPlayer.bind(this)}
+                  />
+                  <InputGroup.Addon>
+                    <Glyphicon glyph="time" />
+                  </InputGroup.Addon>
+                </InputGroup>
+              </div>
+              <div className="col-lg-1">
+                <InputGroup>
+                  <FormControl
+                    style={{ width: "50px" }}
+                    type="text"
+                    placeholder="Roll"
+                    onChange={this.handleChangeRoll} // TODO
+                    onKeyPress={this.createPlayer.bind(this)}
+                  />
+                  <InputGroup.Addon>
+                    <Glyphicon glyph="random" />
+                  </InputGroup.Addon>
+                </InputGroup>
+              </div>
+            </Fragment>
+          )}
         </div>
-        <div className="col-lg-3">
-          <InputGroup>
-            <FormControl
-              style={{ width: "223px" }}
-              type="text"
-              placeholder="NPC Name"
-              onChange={this.onChangeName.bind(this)}
-              onKeyPress={this.createPlayer.bind(this)}
-            />
-            <InputGroup.Addon>
-              <Glyphicon glyph="user" />
-            </InputGroup.Addon>
-          </InputGroup>
-        </div>
-        <div className="col-lg-1">
-          <InputGroup>
-            <FormControl
-              style={{ width: "50px" }}
-              type="text"
-              placeholder="INIT"
-              onChange={this.onChangeInitiative.bind(this)}
-              onKeyPress={this.createPlayer.bind(this)}
-            />
-            <InputGroup.Addon>
-              <Glyphicon glyph="stats" />
-            </InputGroup.Addon>
-          </InputGroup>
-        </div>
-        <div className="col-lg-1 text-center">
-          <InputGroup>
-            <FormControl
-              style={{ width: "50px" }}
-              type="text"
-              placeholder="HP"
-              onChange={this.onChangeHP.bind(this)}
-              onKeyPress={this.createPlayer.bind(this)}
-            />
-            <InputGroup.Addon>
-              <Glyphicon glyph="heart" />
-            </InputGroup.Addon>
-          </InputGroup>
-        </div>
-        <div className="col-lg-1">
-        </div>
-      </div>
+
+        {this.props.started && (
+          <div className="row negative-spacing">
+            <div className="col-lg-7">
+            <PageHeader>
+                <small className="turn-header">Turn <Badge>#{this.props.turnCounter}</Badge></small>
+                {this.props.playerTurn.name}
+              </PageHeader>
+            </div>
+          </div>
+        )}
+      </Fragment>
     )
   }
 }

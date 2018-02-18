@@ -69,3 +69,19 @@
 .player-row-spacing {
     margin-bottom: 10px;
 }
+
+.negative-spacing {
+    margin-top: -6rem;
+}
+
+.turn-header {
+    margin: 0 7rem 0 4rem;
+}
+
+.large-bottom-spacing {
+    margin-bottom: 6rem;
+}
+
+.large-top-spacing {
+    margin-top: 6rem;
+}

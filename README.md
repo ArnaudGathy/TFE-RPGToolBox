@@ -1,7 +1,7 @@
 ## TODO
 
 - Initiative
-  - Add NPC mid-fight (limited time ?)
+  - Add duration to mid-fight NPCs
 
 - Private messenger
 - Map maker

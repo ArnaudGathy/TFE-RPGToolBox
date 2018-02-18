@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { PlayerList } from './playerlist';
 import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
-import { TurnManager } from './turnManager';
 import { sendPlayerList, stopRolls, receiveRoll } from '../socket/api';
 import { path } from 'ramda';
 import keydown from 'react-keydown';
@@ -55,12 +54,15 @@ export class Initiative extends Component {
       });
   }
 
-  addNPC(player, autoRoll) {
+  addNPC(player, autoRoll, roll = "") {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.push(player);
     this.setState({ playerList: newPlayerList }, () => {
       if (autoRoll) {
         this.forceChangeRoll(player)
+      }
+      if(roll !== "") {
+        this.forceChangeRoll(player, roll)
       }
     })
   }
@@ -252,7 +254,7 @@ export class Initiative extends Component {
     player.hp = newHP;
     player.percentHP = this.percentHP(player);
 
-    if(player.hp > 0) {
+    if (player.hp > 0) {
       this.sortPlayer();
     } else {
       this.moveDelete(player);
@@ -297,20 +299,14 @@ export class Initiative extends Component {
   render() {
     return (
       <div className="container">
-
-        {
-          this.state.started
-            ? <TurnManager
-              playerTurn={this.state.playerTurn}
-              turnCounter={this.state.turnCounter}
-            />
-            : <InputNPC
-              onSubmit={this.addNPC.bind(this)}
-              started={this.state.started}
-              lastID={this.lastID.bind(this)}
-              isNameUsed={this.isNameUsed}
-            />
-        }
+        <InputNPC
+          onSubmit={this.addNPC.bind(this)}
+          started={this.state.started}
+          lastID={this.lastID.bind(this)}
+          isNameUsed={this.isNameUsed}
+          turnCounter={this.state.turnCounter}
+          playerTurn={this.state.playerTurn}
+        />
 
         {
           // eslint-disable-next-line
