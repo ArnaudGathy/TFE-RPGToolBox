@@ -4,12 +4,12 @@ import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
 import { TurnManager } from './turnManager';
 import { sendPlayerList, stopRolls, receiveRoll } from '../socket/api';
-import {path} from 'ramda';
+import { path } from 'ramda';
+import keydown from 'react-keydown';
 import '../style.css';
 
+export class Initiative extends Component {
 
-export class Inititiative extends Component {
-  
   state = {
     extraRound: false,
     newPlayer: "",
@@ -59,7 +59,7 @@ export class Inititiative extends Component {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.push(player);
     this.setState({ playerList: newPlayerList }, () => {
-      if(autoRoll) {
+      if (autoRoll) {
         this.forceChangeRoll(player)
       }
     })
@@ -143,26 +143,26 @@ export class Inititiative extends Component {
 
   forceChangeRoll(player, roll = null) {
     let event = {
-      target: 
-        {
-          value: roll || Math.floor((Math.random() * 20) + 1)
-        }
+      target:
+      {
+        value: roll || Math.floor((Math.random() * 20) + 1)
       }
+    }
     this.onChangeRoll(player, event)
     this.sortPlayer();
   }
 
   success(player) {
     // eslint-disable-next-line
-    if(player.success == 1 && player.roll != 20) {
-      this.setState({extraRound: false});
+    if (player.success == 1 && player.roll != 20) {
+      this.setState({ extraRound: false });
     }
     // eslint-disable-next-line
     if (player.roll == 20) {
       player.success = 1;
       player.buttonStyle = "success";
-      this.setState({extraRound: true});
-    // eslint-disable-next-line
+      this.setState({ extraRound: true });
+      // eslint-disable-next-line
     } else if (player.roll == 1) {
       player.success = -1;
       player.buttonStyle = "danger";
@@ -178,7 +178,7 @@ export class Inititiative extends Component {
     let newPlayerList = this.state.playerList.filter((pl) => pl !== player);
     newPlayerList.map((pl) => pl.isTurn = false);
     newPlayerList.splice(index, 0, player);
-    this.setState({ playerTurn: player})
+    this.setState({ playerTurn: player })
     this.setState({ turnOrder: index });
     this.setState({ playerList: newPlayerList });
   }
@@ -191,32 +191,34 @@ export class Inititiative extends Component {
     players.map((pl) => pl.isTurn = false);
     players.splice(turn, 0, playerTurn);
 
-    this.setState({ playerTurn: playerTurn})
+    this.setState({ playerTurn: playerTurn })
     this.setState({ playerList: players });
     this.setState({ turnOrder: turn });
   }
 
+  @keydown('enter')
   start() {
     this.setTurns(0);
     this.setState({ started: true });
-    if(this.state.extraRound) {
-      this.setState({turnCounter: 0});
+    if (this.state.extraRound) {
+      this.setState({ turnCounter: 0 });
     }
   }
 
+  @keydown('esc')
   stop() {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.map((pl) => pl.isTurn = false);
     this.setState({ playerList: newPlayerList });
     this.setState({ started: false });
-    this.setState({ turnCounter: 1});
+    this.setState({ turnCounter: 1 });
   }
 
   checkPrevTurn(turn) {
     let newTurn = turn;
     if (turn < 0) {
       newTurn = this.state.playerList.length - 1;
-      this.setState({ turnCounter: Number(this.state.turnCounter) - 1});
+      this.setState({ turnCounter: Number(this.state.turnCounter) - 1 });
     }
     return newTurn;
   }
@@ -230,11 +232,12 @@ export class Inititiative extends Component {
     let newTurn = turn;
     if (turn > this.state.playerList.length - 1) {
       newTurn = 0;
-      this.setState({ turnCounter: Number(this.state.turnCounter) + 1});
+      this.setState({ turnCounter: Number(this.state.turnCounter) + 1 });
     }
     return newTurn;
   }
 
+  @keydown('space')
   next() {
     let turn = this.checkNextTurn(this.state.turnOrder + 1);
     this.setTurns(turn);
@@ -264,7 +267,7 @@ export class Inititiative extends Component {
   }
 
   extraRound() {
-    this.setState({ extraRound: !this.state.extraRound});
+    this.setState({ extraRound: !this.state.extraRound });
   }
 
   isExtraRound() {
@@ -273,12 +276,12 @@ export class Inititiative extends Component {
 
   promptRoll() {
     sendPlayerList(this.state.playerList.filter(p => p.isPlayer));
-    this.setState({isPromptStarted: true});
+    this.setState({ isPromptStarted: true });
   }
 
   stopPromptRoll() {
     stopRolls();
-    this.setState({isPromptStarted: false});
+    this.setState({ isPromptStarted: false });
   }
 
   lastID() {
@@ -294,7 +297,7 @@ export class Inititiative extends Component {
 
         {
           this.state.started
-            ? <TurnManager 
+            ? <TurnManager
               playerTurn={this.state.playerTurn}
               turnCounter={this.state.turnCounter}
             />
@@ -305,22 +308,22 @@ export class Inititiative extends Component {
               isNameUsed={this.isNameUsed}
             />
         }
-        
+
         {
           // eslint-disable-next-line
           this.state.playerList != ""
-          ?
-          <PlayerList
-            list={this.state.playerList}
-            onChange={this.onChangeRoll.bind(this)}
-            moveUp={this.moveUp.bind(this)}
-            moveDown={this.moveDown.bind(this)}
-            moveDelete={this.moveDelete.bind(this)}
-            changeTurn={this.changeTurn.bind(this)}
-            changeHP={this.changeHP.bind(this)}
-            started={this.state.started}
-          />
-          : "Fetching ..."
+            ?
+            <PlayerList
+              list={this.state.playerList}
+              onChange={this.onChangeRoll.bind(this)}
+              moveUp={this.moveUp.bind(this)}
+              moveDown={this.moveDown.bind(this)}
+              moveDelete={this.moveDelete.bind(this)}
+              changeTurn={this.changeTurn.bind(this)}
+              changeHP={this.changeHP.bind(this)}
+              started={this.state.started}
+            />
+            : "Fetching ..."
         }
 
         <ActionBar
@@ -340,4 +343,4 @@ export class Inititiative extends Component {
   }
 }
 
-export default Inititiative;
+export default Initiative;

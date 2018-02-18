@@ -28,7 +28,8 @@ const ActionBar = (props) => {
             : <Button
               style={{ width: "120px" }}
               bsStyle="success"
-              onClick={props.start}>
+              onClick={props.start}
+              onKeyDown={props.start}>
               <Glyphicon glyph="play" />
             </Button>
         }
@@ -56,12 +57,12 @@ const ActionBar = (props) => {
                 ? <Button
                   bsStyle="danger"
                   onClick={props.stopPromptRoll}>
-                  <Glyphicon glyph="stop" /> Prompt
+                  <Glyphicon glyph="stop" /> Stop prompt
           </Button>
                 : <Button
                   bsStyle="success"
                   onClick={props.promptRoll}>
-                  <Glyphicon glyph="phone" /> Prompt
+                  <Glyphicon glyph="phone" /> Prompt roll
           </Button>
             }
           </div>
