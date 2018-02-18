@@ -251,9 +251,12 @@ export class Initiative extends Component {
     }
     player.hp = newHP;
     player.percentHP = this.percentHP(player);
-    let newPlayerList = this.state.playerList.slice().filter((pl) => pl !== player);
-    newPlayerList.push(player);
-    this.sortPlayer();
+
+    if(player.hp > 0) {
+      this.sortPlayer();
+    } else {
+      this.moveDelete(player);
+    }
   }
 
   percentHP(player) {

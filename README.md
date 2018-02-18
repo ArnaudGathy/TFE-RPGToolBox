@@ -1,7 +1,6 @@
 ## TODO
 
 - Initiative
-  - Auto delete @ 0 HP
   - Add NPC mid-fight (limited time ?)
 
 - Private messenger

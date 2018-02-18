@@ -16,7 +16,9 @@ const PlayerName = (props) => {
                     : <Badge>{props.player.turn}</Badge>
                 }
             </Button>
-            {!props.player.isPlayer && (
+            {props.player.isPlayer 
+            ? <div className="player-row-spacing"></div>
+            : (
             <ProgressBar
                 style={{ 
                     height: "0.4rem", 
@@ -29,7 +31,8 @@ const PlayerName = (props) => {
                     : "primary"
                     }
             />
-            )}
+            )
+            }
         </div>
     )
 }

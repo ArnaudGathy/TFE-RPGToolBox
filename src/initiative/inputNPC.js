@@ -96,20 +96,6 @@ export class InputNPC extends Component {
             </InputGroup.Addon>
           </InputGroup>
         </div>
-        <div className="col-lg-1 text-center">
-          <InputGroup>
-            <FormControl
-              style={{ width: "50px" }}
-              type="text"
-              placeholder="HP"
-              onChange={this.onChangeHP.bind(this)}
-              onKeyPress={this.createPlayer.bind(this)}
-            />
-            <InputGroup.Addon>
-              <Glyphicon glyph="heart" />
-            </InputGroup.Addon>
-          </InputGroup>
-        </div>
         <div className="col-lg-1">
           <InputGroup>
             <FormControl
@@ -121,6 +107,20 @@ export class InputNPC extends Component {
             />
             <InputGroup.Addon>
               <Glyphicon glyph="stats" />
+            </InputGroup.Addon>
+          </InputGroup>
+        </div>
+        <div className="col-lg-1 text-center">
+          <InputGroup>
+            <FormControl
+              style={{ width: "50px" }}
+              type="text"
+              placeholder="HP"
+              onChange={this.onChangeHP.bind(this)}
+              onKeyPress={this.createPlayer.bind(this)}
+            />
+            <InputGroup.Addon>
+              <Glyphicon glyph="heart" />
             </InputGroup.Addon>
           </InputGroup>
         </div>

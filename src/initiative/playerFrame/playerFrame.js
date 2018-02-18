@@ -24,12 +24,15 @@ export class PlayerFrame extends Component {
             started={this.props.started}
           />
         </div>
-        <div className="col-lg-1 text-center">
-          <PlayerHP
-            player={this.props.player}
-            changeHP={this.props.changeHP}
-          />
-        </div>
+        {!this.props.player.isPlayer && this.props.started &&
+          <div className="col-lg-1 text-center">
+            <PlayerHP
+              player={this.props.player}
+              changeHP={this.props.changeHP}
+            />
+          </div>
+
+        }
         <div className="col-lg-1">
           {
             this.props.started
