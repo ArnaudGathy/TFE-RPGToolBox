@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 export class Header extends Component {
 
@@ -15,11 +16,11 @@ export class Header extends Component {
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem componentClass="span" activeKey={1} eventKey={1}><Link to="/init">Initiative</Link></NavItem>
-                        <NavItem componentClass="span" activeKey={1} eventKey={2}><Link to="/messenger">Messenger</Link></NavItem>
+                        <LinkContainer to="/roll"><NavItem activeKey={1} eventKey={1}>Roll</NavItem></LinkContainer>
+                        <LinkContainer to="/messenger"><NavItem activeKey={1} eventKey={2}>Messenger</NavItem></LinkContainer>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem componentClass="span" activeKey={1} eventKey={1}><Link to="/roll">Roll</Link></NavItem>
+                        <LinkContainer to="/init"><NavItem activeKey={1} eventKey={1}>Initiative</NavItem></LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
