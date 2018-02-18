@@ -42,9 +42,9 @@ export class RollInput extends Component {
     if(roll === "20") {
       return "YOU ROLLED 20 ! EXTRA ASS KICKING";
     } else if(roll === "1") {
-      return "YOU ROLLED 1 ! YOU SUCK HARD"
+      return "YOU ROLLED 1 ! YOU SUCK HARD";
     } else {
-      return `${roll} + ${init} = ${total}`;;
+      return `${roll} + ${init} = ${total}`;
     }
   }
 
@@ -87,7 +87,7 @@ export class RollInput extends Component {
                             onChange={this.onChangeRoll.bind(this)}
                             onKeyPress={this.onKeyPress.bind(this)}
                           />
-                          <InputGroup.Addon>+ {this.props.player.initiative}</InputGroup.Addon>
+                          <InputGroup.Addon>+ {this.props.player.initiative} initiative</InputGroup.Addon>
                         </InputGroup>
                       </FormGroup>
                       <FormGroup>

@@ -24,6 +24,10 @@ export class Inititiative extends Component {
   componentWillMount() {
     stopRolls();
     this.getPlayersArray();
+    this.receiveRollFromSocket();
+  }
+
+  receiveRollFromSocket() {
     receiveRoll((player, roll) => {
       this.forceChangeRoll(player, roll)
       let newPlayerList = this.state.playerList.slice();
@@ -268,7 +272,7 @@ export class Inititiative extends Component {
   }
 
   promptRoll() {
-    sendPlayerList(this.state.playerList.filter(p => p.conStat));
+    sendPlayerList(this.state.playerList.filter(p => p.isPlayer));
     this.setState({isPromptStarted: true});
   }
 

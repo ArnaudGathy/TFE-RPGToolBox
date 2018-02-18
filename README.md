@@ -1,3 +1,16 @@
+## TODO
+
+- Prompt
+  - Stop prompt after all rolls
+  - Unable to roll twice (character out of list)
+
+- Initiative
+  - Hotkey navigation
+  - Auto delete @ 0 HP
+  - Add NPC mid-fight (limited time ?)
+  
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

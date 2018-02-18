@@ -16,7 +16,7 @@ const PlayerName = (props) => {
                     : <Badge>{props.player.turn}</Badge>
                 }
             </Button>
-            {!props.player.conStat && (
+            {!props.player.isPlayer && (
             <ProgressBar
                 style={{ 
                     height: "0.4rem", 

@@ -57,7 +57,8 @@ export class InputNPC extends Component {
         name: name,
         percentHP: 100,
         success: 0,
-        turn: 0
+        turn: 0,
+        isPlayer: false
       }
       this.props.onSubmit(newPlayer, this.state.isRandom);
     }

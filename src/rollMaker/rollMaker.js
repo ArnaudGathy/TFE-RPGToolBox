@@ -32,10 +32,10 @@ export class RollMaker extends Component {
   }
 
   renderPlayers() {
-    return this.state.playerList.map((player, index) => {
+    return this.state.playerList.map((player) => {
       return (
         <ListGroupItem
-          key={index}
+          key={player.id}
           onClick={() => this.choosePlayer(player)}
           bsStyle="info"
         >
