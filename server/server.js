@@ -53,7 +53,7 @@ export default class Server {
                 }
             });
             socket.on('choose player', player => {
-                plist = plist.filter(pl => pl.name != player.name);
+                plist = plist.filter(pl => pl.id != player.id);
                 if(plist.length == 0) {
                     started = false;
                 }
@@ -71,15 +71,16 @@ export default class Server {
                 plist = [];
                 started = false;
                 socket.player = "";
-                io.emit('get players', plist);
+                io.emit('stop rolls', plist);
             });
             socket.on('disconnect', () => {
-                if(socket.player !== undefined) {
+                if(socket.player !== undefined && !socket.player.hasRolled) {
                     plist.push(socket.player);
                 }
                 io.emit('get players', plist);
             });
             socket.on('send roll', roll => {
+                socket.player.hasRolled = true;
                 io.emit('receive roll', socket.player, roll);
             });
         });

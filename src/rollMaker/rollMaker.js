@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
-import { choosePlayer, getPlayers, sendRoll } from '../socket/api';
+import { choosePlayer, getPlayers, sendRoll, stopRollsClient } from '../socket/api';
 import PlayerList from '../rollMaker/playerList';
 import RollInput from '../rollMaker/rollInput';
 
@@ -9,16 +9,21 @@ import RollInput from '../rollMaker/rollInput';
 export class RollMaker extends Component {
   state = {
     player: "",
-    playerList: []
+    playerList: [],
+    started: false
   };
 
   componentDidMount() {
     getPlayers(list => {
       this.setState({ playerList: list }, () => {
-        if (this.state.playerList.length === 0)
-          this.setState({ player: "" })
+        if (this.state.playerList.length > 0) {
+          this.setState({started: true})
+        }
       })
     });
+    stopRollsClient(() => {
+      this.setState({started: false, playerList: [], player: ""})
+    })
   }
 
   choosePlayer(player) {
@@ -52,13 +57,14 @@ export class RollMaker extends Component {
           {
             this.state.player !== ""
               ? <RollInput
-                isWaiting={this.state.playerList.length === 0}
+                isWaiting={!this.state.started}
                 player={this.state.player}
                 submitRoll={this.submitRoll.bind(this)}
               />
               : <PlayerList
-                isWaiting={this.state.playerList.length === 0}
+                isWaiting={!this.state.started}
                 render={this.renderPlayers.bind(this)}
+                isFinishedRolling={this.state.started && this.state.playerList.length === 0}
               />
           }
         </div>

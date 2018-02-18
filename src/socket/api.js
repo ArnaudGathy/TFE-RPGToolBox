@@ -36,6 +36,12 @@ export function getPlayers(cb) {
     });
 }
 
+export function stopRollsClient(cb) {
+    socket.on('stop rolls', () => {
+        cb();
+    })
+}
+
 export function sendRoll(roll) {
     socket.emit('send roll', roll)
 }

@@ -14,16 +14,22 @@ const PlayerList = (props) => {
             </div>
 
           )
-          : (
-            <div className="col-xs-12">
-              <PageHeader>
-                Who are you ?
-              </PageHeader>
-              <ListGroup>
-                {props.render()}
-              </ListGroup>
-            </div>
-          )
+          : props.isFinishedRolling
+            ? <div>
+                <Alert bsStyle="info">
+                  Let's wait for other players ...
+                </Alert>
+              </div>
+            : (
+              <div className="col-xs-12">
+                <PageHeader>
+                  Who are you ?
+                </PageHeader>
+                <ListGroup>
+                  {props.render()}
+                </ListGroup>
+              </div>
+            )
       }
     </React.Fragment>
   )

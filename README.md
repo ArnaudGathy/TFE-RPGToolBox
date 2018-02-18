@@ -1,9 +1,5 @@
 ## TODO
 
-- Prompt
-  - Stop prompt after all rolls
-  - Unable to roll twice (character out of list)
-
 - Initiative
   - Hotkey navigation
   - Auto delete @ 0 HP
