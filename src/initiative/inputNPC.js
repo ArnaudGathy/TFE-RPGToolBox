@@ -10,16 +10,12 @@ export class InputNPC extends Component {
       initiative: "",
       name: "",
       isRandom: true,
-      roll: ""
+      roll: "",
+      duration: -1
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.started) {
-      this.setState({ isRandom: false })
-    } else {
-      this.setState({ isRandom: true })
-    }
   }
 
   onChangeName(event) {
@@ -34,13 +30,16 @@ export class InputNPC extends Component {
     this.setState({ hp: event.target.value })
   }
 
+  onChangeDurationn = (event) => 
+    this.setState({ duration: event.target.value })
+
   toggleRandom = () => {
     this.setState({ isRandom: !this.state.isRandom })
 
   }
   createPlayer(event) {
     if (event.key === "Enter" || event.type === "click") {
-      let { initiative, name, hp } = this.state
+      let { initiative, name, hp, duration } = this.state
 
       if (!name) {
         name = 'Dummy';
@@ -73,7 +72,8 @@ export class InputNPC extends Component {
         percentHP: 100,
         success: 0,
         turn: 0,
-        isPlayer: isPlayer
+        isPlayer: isPlayer,
+        duration: duration
       }
       this.props.onSubmit(newPlayer, this.state.isRandom, this.state.roll);
     }
@@ -152,7 +152,7 @@ export class InputNPC extends Component {
                     style={{ width: "50px" }}
                     type="text"
                     placeholder="Dur"
-                    onChange={this.onChangeHP.bind(this)} // TODO
+                    onChange={this.onChangeDurationn}
                     onKeyPress={this.createPlayer.bind(this)}
                   />
                   <InputGroup.Addon>
@@ -166,7 +166,7 @@ export class InputNPC extends Component {
                     style={{ width: "50px" }}
                     type="text"
                     placeholder="Roll"
-                    onChange={this.handleChangeRoll} // TODO
+                    onChange={this.handleChangeRoll}
                     onKeyPress={this.createPlayer.bind(this)}
                   />
                   <InputGroup.Addon>
