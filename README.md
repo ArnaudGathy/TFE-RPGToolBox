@@ -1,11 +1,8 @@
 ## TODO
 
-- Initiative
-  - Add duration to mid-fight NPCs
-
-- Private messenger
 - Map maker
-  
+- Private messenger
+
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
