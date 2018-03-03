@@ -11,7 +11,7 @@ const PlayerName = (props) => {
       >
         <strong>{props.player.name} </strong>
         {
-          <Badge>{props.started ? (props.player.duration > 0 ? props.player.duration : "") : (props.player.turn > 0 ? props.player.turn : "")}</Badge>
+          <Badge>{props.started ? (props.player.duration === undefined ? "" : (props.player.duration > 0 ? props.player.duration : "💀")) : (props.player.turn > 0 ? props.player.turn : "")}</Badge>
         }
       </Button>
       {props.player.isPlayer

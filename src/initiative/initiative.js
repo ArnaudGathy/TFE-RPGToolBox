@@ -185,7 +185,7 @@ export class Initiative extends Component {
     this.setState({ playerList: newPlayerList });
   }
 
-  setTurns(turn) {
+  setTurns(turn, isForward = true) {
     let [playerTurn] = this.state.playerList.slice().splice(turn, 1);
     playerTurn.isTurn = true;
 
@@ -193,9 +193,19 @@ export class Initiative extends Component {
     players.map((pl) => pl.isTurn = false);
     players.splice(turn, 0, playerTurn);
 
+    if(playerTurn.duration !== undefined) {
+      isForward ? playerTurn.duration-- : playerTurn.duration++
+    }
+
     this.setState({ playerTurn: playerTurn })
     this.setState({ playerList: players });
     this.setState({ turnOrder: turn });
+
+    console.log(playerTurn.duration)
+
+    if(playerTurn.duration !== undefined && playerTurn.duration < 0) {
+      this.moveDelete(playerTurn);
+    }
   }
 
   @keydown('enter')
@@ -227,7 +237,7 @@ export class Initiative extends Component {
 
   previous() {
     let turn = this.checkPrevTurn(this.state.turnOrder - 1);
-    this.setTurns(turn);
+    this.setTurns(turn, false);
   }
 
   checkNextTurn(turn) {
