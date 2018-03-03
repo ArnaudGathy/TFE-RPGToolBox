@@ -35,15 +35,13 @@ export class PlayerFrame extends Component {
         }
         <div className="col-lg-1">
           {
-            this.props.started
-              ? null
-              : <PlayerRoll
+            (!this.props.started || !this.props.player.roll) &&
+              <PlayerRoll
                 ref={component => {
                   this.playerRoll = component
                 }}
                 player={this.props.player}
                 onChange={this.props.onChange}
-                onKeyPress={this.props.onKeyPress}
               />
           }
         </div>

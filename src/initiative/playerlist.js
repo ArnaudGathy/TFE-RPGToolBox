@@ -13,17 +13,6 @@ export class PlayerList extends Component {
     this.listBuilder();
   }
 
-  onKeyPress(event) {
-    if (event.key === "Enter") {
-      let newCurrentFocus = this.state.currentFocus + 1;
-      if(newCurrentFocus > this.playerFrame.length - 1) {
-        newCurrentFocus = 0;
-      }
-      this.playerFrame[newCurrentFocus].playerRoll.input.focus()
-      this.setState({currentFocus: newCurrentFocus});
-    }
-  }
-
   listBuilder() {
     this.playerFrame = [];
     let playerList = [];
@@ -36,7 +25,6 @@ export class PlayerList extends Component {
           }}
           player={player}
           onChange={this.props.onChange}
-          onKeyPress={this.onKeyPress.bind(this)}
           moveUp={this.props.moveUp}
           moveDown={this.props.moveDown}
           moveDelete={this.props.moveDelete}

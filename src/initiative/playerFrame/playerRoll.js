@@ -2,6 +2,25 @@ import React, { Component } from 'react';
 import { FormControl, FormGroup, InputGroup } from 'react-bootstrap';
 
 class PlayerRoll extends Component {
+  state = {
+    roll: null
+  }
+
+  handleSubmit = (player, event) => {
+    if(this.state.roll) {
+      event = {
+        target:
+        {
+          value: this.state.roll
+        }
+      }
+      this.props.onChange(player, event)
+    }
+  }
+
+  handleChange = (event) => this.setState({roll: event.target.value})
+
+
   render() {
     return (
       <FormGroup>
@@ -13,8 +32,8 @@ class PlayerRoll extends Component {
             style={{ width: "50px" }}
             type="text"
             placeholder="Roll"
-            onChange={(event) => this.props.onChange(this.props.player, event)}
-            onKeyPress={this.props.onKeyPress}
+            onChange={this.handleChange}
+            onBlur={() => this.handleSubmit(this.props.player)}
           />
           <InputGroup.Addon style={{ width: "50px" }}>{this.props.player.initiative}</InputGroup.Addon>
         </InputGroup>
@@ -23,4 +42,5 @@ class PlayerRoll extends Component {
     )
   }
 }
+
 export default PlayerRoll;
