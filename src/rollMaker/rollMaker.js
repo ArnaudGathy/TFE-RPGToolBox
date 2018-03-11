@@ -27,12 +27,14 @@ export class RollMaker extends Component {
   }
 
   choosePlayer(player) {
-    this.setState({ player: player });
-    choosePlayer(player);
+    if(!player.isSelected) {
+      this.setState({ player: player });
+      choosePlayer(player);
+    }
   }
 
   submitRoll(roll, event) {
-    event.preventDefault();
+    //event.preventDefault();
     sendRoll(roll);
   }
 
@@ -43,6 +45,7 @@ export class RollMaker extends Component {
           key={player.id}
           onClick={() => this.choosePlayer(player)}
           bsStyle="info"
+          disabled={player.isSelected}
         >
           {player.name}
         </ListGroupItem>

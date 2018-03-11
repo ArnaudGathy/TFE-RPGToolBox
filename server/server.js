@@ -31,6 +31,11 @@ export default class Server {
         this.server.listen(this.port, () => console.log(`Node/Express server running on localhost:${this.port}`));
     }
 
+    sortPlayer(plist) {
+        let newPlayerList = plist.slice();
+        return newPlayerList.sort((p1, p2) => p2.id - p1.id)
+      }
+
     socket() {
         let port = 8000;
         io.listen(port);
@@ -43,21 +48,31 @@ export default class Server {
         io.on('connection', (socket) => {
             io.emit('get players', plist);
 
+
             socket.on('chat message', (msg) => {
                 io.emit('chat message', msg);
             });
+            socket.on('ask status', () => {
+                io.emit('send status', started);
+            });
             socket.on('send player list', list => {
                 if(!started) {
-                    plist = list;
+                    plist = this.sortPlayer(list);
                     started = true;
                 }
             });
             socket.on('choose player', player => {
-                plist = plist.filter(pl => pl.id != player.id);
                 if(plist.length == 0) {
                     started = false;
                 }
                 socket.player = player;
+                socket.player.isSelected = true;
+                
+                const newPList = plist.filter(pl => pl.id !== socket.player.id)
+                socket.player.isSelected = true;
+                newPList.push(socket.player)
+                plist = this.sortPlayer(newPList)
+
             });
             socket.on('get players', () => {
                 io.emit('get players', plist);
@@ -74,8 +89,11 @@ export default class Server {
                 io.emit('stop rolls', plist);
             });
             socket.on('disconnect', () => {
-                if(socket.player !== undefined && !socket.player.hasRolled) {
-                    plist.push(socket.player);
+                if(socket.player !== undefined && socket.player !== ""  && !socket.player.hasRolled) {
+                    const newPList = plist.filter(pl => pl.id !== socket.player.id)
+                    socket.player.isSelected = false;
+                    newPList.push(socket.player)
+                    plist = this.sortPlayer(newPList)
                 }
                 io.emit('get players', plist);
             });

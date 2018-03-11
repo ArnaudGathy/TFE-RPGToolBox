@@ -15,6 +15,18 @@ export function sendMessage(event, input) {
     input.value = "";
 }
 
+export function disconnect() {
+    socket.disconnect()    
+}
+export function connect() {
+    socket.connect()
+}
+export function askStatus(cb) {
+    socket.emit('ask status');
+    socket.on('send status', (started) => {
+        cb(started)
+    })
+}
 export function sendPlayerList(list) {
     socket.emit('send player list', list);
     socket.emit('get players');

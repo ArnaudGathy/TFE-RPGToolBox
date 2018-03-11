@@ -19,6 +19,7 @@ export class RollInput extends Component {
 
   isValidation = () => 
     (!isNaN(this.state.roll) &&
+    Number.isInteger(Number(this.state.roll)) &&
     this.state.roll !== "" &&
     this.state.roll >= 1 &&
     this.state.roll <= 20 &&
@@ -78,14 +79,15 @@ export class RollInput extends Component {
                         <strong>Roll sent !</strong> {this.rollString()}
                       </Alert>
                     }
-                    <form>
+                    <form onSubmit={this.sendRoll}>
                       <FormGroup>
                         <InputGroup>
                           <FormControl
-                            type="text"
+                            type="tel"
                             placeholder="Roll"
                             onChange={this.onChangeRoll.bind(this)}
                             onKeyPress={this.onKeyPress.bind(this)}
+                            disabled={this.state.sent}
                           />
                           <InputGroup.Addon>+ {this.props.player.initiative} initiative</InputGroup.Addon>
                         </InputGroup>

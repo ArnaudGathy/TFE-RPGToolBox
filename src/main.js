@@ -8,7 +8,7 @@ const Main = () => {
     return (
         <main>
             <Switch>
-                <Route exact path="/" component={Initiative} />
+                <Route exact path="/" component={RollMaker} />
                 <Route path="/init" component={Initiative} />
                 <Route path="/messenger" component={Messenger} />
                 <Route path="/roll" component={RollMaker} />

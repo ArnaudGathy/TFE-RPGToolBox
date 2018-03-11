@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { PlayerList } from './playerlist';
 import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
-import { sendPlayerList, stopRolls, receiveRoll } from '../socket/api';
+import { sendPlayerList, stopRolls, receiveRoll, askStatus } from '../socket/api';
 import { path } from 'ramda';
 import keydown from 'react-keydown';
 import '../style.css';
@@ -21,7 +21,8 @@ export class Initiative extends Component {
   };
 
   componentWillMount() {
-    stopRolls();
+    //stopRolls();
+    askStatus((started) => this.setState({isPromptStarted: started}))
     this.getPlayersArray();
     this.receiveRollFromSocket();
   }
