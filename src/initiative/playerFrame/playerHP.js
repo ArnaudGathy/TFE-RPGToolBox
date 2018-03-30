@@ -3,7 +3,7 @@ import { FormControl, Form, FormGroup, Glyphicon, InputGroup } from 'react-boots
 
 const PlayerHP = (props) => {
   return (
-    <Form>
+    <Form onSubmit={(event) => event.preventDefault()}>
       <FormGroup>
         <InputGroup>
           <FormControl

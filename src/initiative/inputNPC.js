@@ -10,12 +10,7 @@ export class InputNPC extends Component {
       initiative: "",
       name: "",
       isRandom: true,
-      roll: "",
-      duration: -1
     }
-  }
-
-  componentWillReceiveProps(nextProps) {
   }
 
   onChangeName(event) {
@@ -30,16 +25,13 @@ export class InputNPC extends Component {
     this.setState({ hp: event.target.value })
   }
 
-  onChangeDurationn = (event) => 
-    this.setState({ duration: event.target.value })
-
   toggleRandom = () => {
     this.setState({ isRandom: !this.state.isRandom })
 
   }
   createPlayer(event) {
     if (event.key === "Enter" || event.type === "click") {
-      let { initiative, name, hp, duration } = this.state
+      let { initiative, name, hp} = this.state
 
       if (!name) {
         name = 'Dummy';
@@ -73,14 +65,9 @@ export class InputNPC extends Component {
         success: 0,
         turn: 0,
         isPlayer: isPlayer,
-        duration: duration
       }
-      this.props.onSubmit(newPlayer, this.state.isRandom, this.state.roll);
+      this.props.onSubmit(newPlayer, this.state.isRandom);
     }
-  }
-
-  handleChangeRoll = (event) => {
-    this.setState({roll: event.target.value})
   }
 
   render() {
@@ -144,38 +131,6 @@ export class InputNPC extends Component {
               </InputGroup.Addon>
             </InputGroup>
           </div>
-          {this.props.started && (
-            <Fragment>
-              <div className="col-lg-1">
-                <InputGroup>
-                  <FormControl
-                    style={{ width: "50px" }}
-                    type="text"
-                    placeholder="Dur"
-                    onChange={this.onChangeDurationn}
-                    onKeyPress={this.createPlayer.bind(this)}
-                  />
-                  <InputGroup.Addon>
-                    <Glyphicon glyph="time" />
-                  </InputGroup.Addon>
-                </InputGroup>
-              </div>
-              <div className="col-lg-1">
-                <InputGroup>
-                  <FormControl
-                    style={{ width: "50px" }}
-                    type="text"
-                    placeholder="Roll"
-                    onChange={this.handleChangeRoll}
-                    onKeyPress={this.createPlayer.bind(this)}
-                  />
-                  <InputGroup.Addon>
-                    <Glyphicon glyph="random" />
-                  </InputGroup.Addon>
-                </InputGroup>
-              </div>
-            </Fragment>
-          )}
         </div>
 
         {this.props.started && (

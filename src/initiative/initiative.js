@@ -55,15 +55,12 @@ export class Initiative extends Component {
       });
   }
 
-  addNPC(player, autoRoll, roll = "") {
+  addNPC(player, autoRoll) {
     let newPlayerList = this.state.playerList.slice();
     newPlayerList.push(player);
     this.setState({ playerList: newPlayerList }, () => {
       if (autoRoll) {
         this.forceChangeRoll(player)
-      }
-      if(roll !== "") {
-        this.forceChangeRoll(player, roll)
       }
     })
   }
@@ -194,19 +191,9 @@ export class Initiative extends Component {
     players.map((pl) => pl.isTurn = false);
     players.splice(turn, 0, playerTurn);
 
-    if(playerTurn.duration !== undefined) {
-      isForward ? playerTurn.duration-- : playerTurn.duration++
-    }
-
     this.setState({ playerTurn: playerTurn })
     this.setState({ playerList: players });
     this.setState({ turnOrder: turn });
-
-    console.log(playerTurn.duration)
-
-    if(playerTurn.duration !== undefined && playerTurn.duration < 0) {
-      this.moveDelete(playerTurn);
-    }
   }
 
   @keydown('enter')
@@ -266,7 +253,7 @@ export class Initiative extends Component {
     player.percentHP = this.percentHP(player);
 
     if (player.hp > 0) {
-      this.sortPlayer();
+      this.setState({ playerList: this.state.playerList });
     } else {
       this.moveDelete(player);
     }

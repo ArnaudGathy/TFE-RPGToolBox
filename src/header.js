@@ -22,6 +22,7 @@ export class Header extends Component {
                     </Nav>
                     <Nav pullRight>
                         <LinkContainer onClick={disconnect} to="/init"><NavItem activeKey={1} eventKey={1}>Initiative</NavItem></LinkContainer>
+                        <LinkContainer onClick={disconnect} to="/maps"><NavItem activeKey={1} eventKey={2}>Maps</NavItem></LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
