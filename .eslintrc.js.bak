@@ -4,9 +4,9 @@ module.exports = {
         "es6": true,
         "node": true
     },
-	"parser": "babel-eslint",
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "parserOptions": {
+		"ecmaVersion": 6,
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
@@ -37,7 +37,7 @@ module.exports = {
         "callback-return": "error",
         "camelcase": "error",
         "class-methods-use-this": "off",
-        "comma-dangle": "off",
+        "comma-dangle": "error",
         "comma-spacing": [
             "error",
             {
@@ -61,7 +61,7 @@ module.exports = {
         "dot-notation": "error",
         "eol-last": [
             "error",
-            "always"
+            "never"
         ],
         "eqeqeq": "off",
         "for-direction": "error",
@@ -89,7 +89,7 @@ module.exports = {
         "init-declarations": "error",
         "jsx-quotes": [
             "error",
-            "prefer-single"
+            "prefer-double"
         ],
         "key-spacing": "error",
         "keyword-spacing": "off",
@@ -137,7 +137,7 @@ module.exports = {
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
         "no-inline-comments": "off",
-        "no-invalid-this": "off",
+        "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
         "no-labels": "error",
@@ -188,7 +188,7 @@ module.exports = {
         "no-trailing-spaces": "off",
         "no-undef-init": "error",
         "no-undefined": "error",
-        "no-underscore-dangle": "off",
+        "no-underscore-dangle": "error",
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "error",
