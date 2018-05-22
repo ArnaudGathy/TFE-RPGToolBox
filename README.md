@@ -1,7 +1,12 @@
 ## TODO
-
-
 - Map maker
-- Private messenger
+    - Read KONVA doc
+    - Grid toggle
 
-- Security / login for GM modules
+    - Action bar 
+        - Add shape
+            - Use store with an array of shapes
+        - Remove shape
+            - Change all shapes onClick ?
+            
+    - free draw

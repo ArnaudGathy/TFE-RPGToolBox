@@ -20,7 +20,7 @@ export class Initiative extends Component {
     turnOrder: "0"
   };
 
-  componentWillMount() {
+  componentDidMount() {
     //stopRolls();
     askStatus((started) => this.setState({isPromptStarted: started}))
     this.getPlayersArray();
