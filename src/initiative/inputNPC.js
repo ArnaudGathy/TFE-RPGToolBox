@@ -29,6 +29,7 @@ export class InputNPC extends Component {
     this.setState({ isRandom: !this.state.isRandom })
 
   }
+  
   createPlayer(event) {
     if (event.key === "Enter" || event.type === "click") {
       let { initiative, name, hp} = this.state

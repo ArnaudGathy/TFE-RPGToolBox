@@ -85,3 +85,15 @@
 .large-top-spacing {
     margin-top: 6rem;
 }
+
+.maps {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.stage {
+    border: 1px solid #d7d4d4;
+    background-color: #fffcfc;
+}

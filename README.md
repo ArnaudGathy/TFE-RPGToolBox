@@ -1,12 +1,6 @@
 ## TODO
 - Map maker
-    - Read KONVA doc
-    - Grid toggle
+    - Center text on Shape (offset, need to get X and Y for shape)
 
-    - Action bar 
-        - Add shape
-            - Use store with an array of shapes
-        - Remove shape
-            - Change all shapes onClick ?
-            
+    - Remove shape       
     - free draw
