@@ -1,6 +1,7 @@
 ## TODO
 - Map maker
-    - Center text on Shape (offset, need to get X and Y for shape)
-
-    - Remove shape       
+    - Draw rectangle
     - free draw
+    - Presets shapes for NPC, Ennemies
+    
+    - Border to shapes ?
