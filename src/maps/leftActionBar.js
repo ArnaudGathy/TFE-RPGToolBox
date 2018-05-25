@@ -4,7 +4,6 @@ import { gridToggle } from '../reducers/actions/grid'
 import { shapesClear } from '../reducers/actions/shapes'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import { MAPS_MODES } from '../constants/mapsActionsModes'
 
 const mapStateToProps = state => ({
   gridVisible: state.maps.grid.visible,

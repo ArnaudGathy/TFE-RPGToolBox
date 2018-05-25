@@ -18,6 +18,13 @@ export const actionSetColor = (color) => ({
   color,
 })
 
+export const actionSetAll = (options) => ({
+  type: 'ACTION_SET_ALL',
+  options: {
+    ...options
+  },
+})
+
 export const actionReset = () => ({
   type: 'ACTION_RESET',
 })

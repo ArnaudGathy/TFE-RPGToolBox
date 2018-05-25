@@ -51,7 +51,7 @@ module.exports = {
             "error",
             "never"
         ],
-        "consistent-return": "error",
+        "consistent-return": "off",
         "consistent-this": "error",
         "default-case": "off",
         "dot-location": [
@@ -78,7 +78,7 @@ module.exports = {
         "function-paren-newline": "off",
         "generator-star-spacing": "error",
         "getter-return": "error",
-        "global-require": "error",
+        "global-require": "off",
         "guard-for-in": "error",
         "handle-callback-err": "error",
         "id-blacklist": "error",
@@ -120,7 +120,7 @@ module.exports = {
         "no-buffer-constructor": "error",
         "no-caller": "error",
         "no-catch-shadow": "error",
-        "no-confusing-arrow": "error",
+        "no-confusing-arrow": "off",
         "no-continue": "error",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",

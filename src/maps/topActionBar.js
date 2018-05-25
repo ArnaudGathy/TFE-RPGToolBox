@@ -2,16 +2,19 @@ import { Button, Glyphicon, FormControl, FormGroup, ControlLabel } from 'react-b
 import { FieldGroup } from '../components/fieldGroup'
 import React, { Component } from 'react';
 import { gridToggle } from '../reducers/actions/grid'
-import { actionSetMode, actionSetText, actionSetScale, actionReset, actionSetColor } from '../reducers/actions/action'
+import {presets} from '../constants/mapsPresets'
+import { actionSetMode, actionSetText, actionSetScale, actionReset, actionSetColor, actionSetAll } from '../reducers/actions/action'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 import { PICKER_COLORS } from '../constants/mapsColors'
 import { TwitterPicker } from 'react-color';
+import {toUpper} from 'ramda'
 
 const mapStateToProps = state => ({
   visible: state.maps.grid.visible,
   action: state.maps.action,
+  players: state.maps.players.list
 })
 
 const mapDispatchToProps = {
@@ -21,6 +24,7 @@ const mapDispatchToProps = {
   actionSetScale,
   actionReset,
   actionSetColor,
+  actionSetAll,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -34,22 +38,30 @@ export class TopActionBar extends Component {
     actionSetScale: PropTypes.func.isRequired,
     actionSetColor: PropTypes.func.isRequired,
     actionReset: PropTypes.func.isRequired,
+    actionSetAll: PropTypes.func.isRequired,
+    players: PropTypes.array.isRequired,
   }
 
   state = {
     picker: false,
   }
 
-  handleEnnemy = () => {
-    if (this.props.action.mode === MAPS_MODES.ENNEMY) {
-      this.props.actionSetMode(null)
-    } else {
-      this.props.actionSetMode(MAPS_MODES.ENNEMY)
+  handlePreset = (event) => {
+    const text = event.target.value
+    if(!text) {
+      return this.props.actionReset()
     }
+
+    if(this.props.players.includes(text)) {
+      return this.props.actionSetAll(presets.player(toUpper(text)))
+    }
+
+    return this.props.actionSetAll(presets[text])
   }
 
   render() {
     const { text, scale, color, mode } = this.props.action
+    const { players } = this.props
     const popover = {
       position: 'absolute',
       zIndex: '2',
@@ -63,8 +75,33 @@ export class TopActionBar extends Component {
     }
     return (
       <div className='row small-bottom-spacing'>
-      <div className='col-lg-4'></div>
-      
+        <div className='col-lg-2'></div>
+        {/* SELECT PRESET */}
+        <div className='col-lg-2'>
+          {players.length > 0 ?
+            <FormGroup controlId="formControlsSelect">
+              <ControlLabel>Select preset</ControlLabel>
+              <FormControl
+                onChange={this.handlePreset}
+                componentClass="select"
+              >
+                <option value=''>None</option>
+                <option disabled>──────────</option>
+                {players.map((player, index) =>
+                  <option key={index} value={player}>{`Player : ${player}`}</option>
+                )}
+                <option disabled>──────────</option>
+                <option value='ennemy'>Ennemy : Generic, no name</option>
+                <option value='goblin'>Ennemy : Goblin</option>
+                <option value='ogre'>Ennemy : Ogre</option>
+                <option disabled>──────────</option>
+                <option value='trap'>Object : Trap</option>
+                <option value='loot'>Object : Loot</option>
+              </FormControl>
+            </FormGroup>
+            : 'Fetching preset ...'}
+        </div>
+
         {/* SELECT SHAPE */}
         <div className='col-lg-2'>
           <FormGroup controlId="formControlsSelect">

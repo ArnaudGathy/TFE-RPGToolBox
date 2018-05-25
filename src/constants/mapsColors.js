@@ -2,6 +2,8 @@ export const MAPS_COLORS = {
   shapeDefault: '#00D084',
   player: '#0693E3',
   ennemy: '#EB144C',
+  loot: '#FCB900',
+  trap: '#999999',
 }
 
 export const PICKER_COLORS = [

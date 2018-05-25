@@ -1,7 +1,6 @@
 ## TODO
 - Map maker
+    - free draw tool
     - Draw rectangle
-    - free draw
-    - Presets shapes for NPC, Ennemies
-    
-    - Border to shapes ?
+
+    - Integrate player images when they're done

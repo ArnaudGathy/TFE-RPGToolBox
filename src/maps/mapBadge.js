@@ -1,7 +1,7 @@
 import React from 'react';
-import {GRID_GAP} from '../constants/mapsSizes'
+import { GRID_GAP } from '../constants/mapsSizes'
 import PropTypes from 'prop-types';
-import {Group, Text} from "react-konva";
+import { Group, Text } from "react-konva";
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 
 export class MapBadge extends React.Component {
@@ -23,9 +23,23 @@ export class MapBadge extends React.Component {
   }
 
   state = {
+    // image: null,
     x: this.props.x,
     y: this.props.y,
   }
+
+  // TODO ADD IMAGES FOR PRESET CHARS
+
+  // componentDidMount() {
+  //   const image = new window.Image();
+  //   image.src = require('../assets/images/belward.png');
+  //   image.onload = () => {
+  //     this.setState({
+  //       image: image
+  //     })
+  //   }
+  //   fillPatternImage: this.state.image,
+  // }
 
   handleDragEnd = e => {
     this.setState({
@@ -35,8 +49,8 @@ export class MapBadge extends React.Component {
   };
 
   getExtraAttrs = () => {
-    const {type, scale} = this.props
-    if(type === MAPS_MODES.STAR) {
+    const { type, scale } = this.props
+    if (type === MAPS_MODES.STAR) {
       return ({
         numPoints: 5,
         innerRadius: ((GRID_GAP * scale) + 5) / 6,
@@ -44,7 +58,7 @@ export class MapBadge extends React.Component {
       })
     }
 
-    if(type === MAPS_MODES.TRIANGLE) {
+    if (type === MAPS_MODES.TRIANGLE) {
       return ({
         numPoints: 3,
         innerRadius: ((GRID_GAP * scale) + 5) / 4,
@@ -52,7 +66,7 @@ export class MapBadge extends React.Component {
       })
     }
 
-    if(type === MAPS_MODES.DIAMOND) {
+    if (type === MAPS_MODES.DIAMOND) {
       return ({
         numPoints: 4,
         innerRadius: ((((GRID_GAP * scale) - 5) / 3) + (1 * Number(scale))),
@@ -60,14 +74,14 @@ export class MapBadge extends React.Component {
       })
     }
 
-    if(type === MAPS_MODES.RING) {
+    if (type === MAPS_MODES.RING) {
       return ({
         innerRadius: ((GRID_GAP * scale) - 5) / 4,
         outerRadius: ((GRID_GAP * scale) - 5) / 2,
       })
     }
 
-    if(type === MAPS_MODES.SQUARE) {
+    if (type === MAPS_MODES.SQUARE) {
       return ({
         offsetY: ((GRID_GAP * scale) - 5) / 2,
         offsetX: ((GRID_GAP * scale) - 5) / 2,
@@ -76,7 +90,7 @@ export class MapBadge extends React.Component {
       })
     }
 
-    if(type === MAPS_MODES.CIRCLE) {
+    if (type === MAPS_MODES.CIRCLE) {
       return ({
         width: (GRID_GAP * scale) - 5,
         height: (GRID_GAP * scale) - 5,
@@ -86,21 +100,21 @@ export class MapBadge extends React.Component {
   }
 
   render() {
-    const {scale, color, text} = this.props
+    const { scale, color, text } = this.props
     let Shape = this.props.type
-    if(!Shape) {
+    if (!Shape) {
       return null
     }
 
     const extraAttrs = this.getExtraAttrs()
 
-    if(this.props.type === MAPS_MODES.TRIANGLE || this.props.type === MAPS_MODES.DIAMOND) {
+    if (this.props.type === MAPS_MODES.TRIANGLE || this.props.type === MAPS_MODES.DIAMOND) {
       Shape = MAPS_MODES.STAR
     }
     return (
-      text 
-      ?
-        <Group 
+      text
+        ?
+        <Group
           ref={o => this.shapeGroup = o}
           onClick={() => this.shapeGroup.destroy()}
           draggable
@@ -126,17 +140,17 @@ export class MapBadge extends React.Component {
             stroke='black'
           />
         </Group>
-      : 
-      <Shape
-        {...extraAttrs}
-        ref={o => this.shape = o}
-        x={this.state.x}
-        y={this.state.y}
-        fill={color}
-        draggable
-        onDragEnd={this.handleDragEnd}
-        onClick={() => this.shape.destroy()}
-      />
+        :
+        <Shape
+          {...extraAttrs}
+          ref={o => this.shape = o}
+          x={this.state.x}
+          y={this.state.y}
+          fill={color}
+          draggable
+          onDragEnd={this.handleDragEnd}
+          onClick={() => this.shape.destroy()}
+        />
     )
   }
 }

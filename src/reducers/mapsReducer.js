@@ -13,6 +13,9 @@ const initialState = {
   grid: {
     visible: true,
   },
+  players: {
+    list: [],
+  },
 }
 
 export const mapsReducer = (state = initialState, action) => {
@@ -41,8 +44,15 @@ export const mapsReducer = (state = initialState, action) => {
   if(action.type === 'ACTION_SET_COLOR') {
     return {...state, action: {...state.action, color: action.color}}
   }
+  if(action.type === 'ACTION_SET_ALL') {
+    return {...state, action: {...state.action, ...action.options}}
+  }
   if(action.type === 'ACTION_RESET') {
     return {...state, action: {mode: '', text: '', scale: 1, color: MAPS_COLORS.shapeDefault}}
+  }
+
+  if(action.type === 'PLAYERS_SET') {
+    return {...state, players: { list: action.players}}
   }
 
   return state

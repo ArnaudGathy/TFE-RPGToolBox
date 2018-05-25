@@ -1,6 +1,4 @@
 export const MAPS_MODES = {
-  ENNEMY: 'Circle',
-  PLAYER: 'Circle',
   CIRCLE: 'Circle',
   SQUARE: 'Rect',
   TRIANGLE: 'Triangle',

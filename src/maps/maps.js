@@ -3,6 +3,7 @@ import { Stage, Layer } from "react-konva";
 import { LeftActionBar } from './leftActionBar'
 import { TopActionBar } from './topActionBar'
 import { shapesAdd } from '../reducers/actions/shapes'
+import { setPlayers } from '../reducers/actions/players'
 import { Grid } from './grid'
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../constants/mapsSizes'
 import { connect } from 'react-redux'
@@ -15,7 +16,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  shapesAdd
+  shapesAdd,
+  setPlayers,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -24,6 +26,18 @@ class Maps extends Component {
     shapes: PropTypes.array.isRequired,
     action: PropTypes.object.isRequired,
     shapesAdd: PropTypes.func.isRequired,
+    setPlayers: PropTypes.func.isRequired,
+  }
+
+  getPlayersArray = async () => {
+    const response = await fetch('/api/players')
+    const json = await response.json()
+    return json.map(player => player.name)
+  }
+
+  async componentDidMount() {
+    const players = await this.getPlayersArray()
+    this.props.setPlayers(players)
   }
 
   handleClick = () => {
