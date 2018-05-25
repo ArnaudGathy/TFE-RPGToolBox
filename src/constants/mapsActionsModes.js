@@ -4,5 +4,7 @@ export const MAPS_MODES = {
   TRIANGLE: 'Triangle',
   DIAMOND: 'Diamond',
   STAR: 'Star',
-  RING: 'Ring' 
+  RING: 'Ring',
+  FREE: 'free',
+  ERASE: 'erase',
 }

@@ -128,7 +128,7 @@ export class MapBadge extends React.Component {
           <Text
             text={text}
             x={this.state.x - (((GRID_GAP * scale) - 5) / 2)}
-            y={this.state.y - 12}
+            y={this.state.y - 13}
             width={(GRID_GAP * scale) - 5}
             height={(GRID_GAP) - 5}
             align='center'
@@ -136,8 +136,6 @@ export class MapBadge extends React.Component {
             fontFamily='monospace'
             fontSize={25}
             fill='white'
-            strokeWidth={1}
-            stroke='black'
           />
         </Group>
         :

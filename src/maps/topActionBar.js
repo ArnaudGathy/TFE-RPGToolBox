@@ -2,14 +2,14 @@ import { Button, Glyphicon, FormControl, FormGroup, ControlLabel } from 'react-b
 import { FieldGroup } from '../components/fieldGroup'
 import React, { Component } from 'react';
 import { gridToggle } from '../reducers/actions/grid'
-import {presets} from '../constants/mapsPresets'
+import { presets } from '../constants/mapsPresets'
 import { actionSetMode, actionSetText, actionSetScale, actionReset, actionSetColor, actionSetAll } from '../reducers/actions/action'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 import { PICKER_COLORS } from '../constants/mapsColors'
 import { TwitterPicker } from 'react-color';
-import {toUpper} from 'ramda'
+import { toUpper } from 'ramda'
 
 const mapStateToProps = state => ({
   visible: state.maps.grid.visible,
@@ -31,7 +31,12 @@ const mapDispatchToProps = {
 export class TopActionBar extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
-    action: PropTypes.object,
+    action: PropTypes.shape({
+      scale: PropTypes.number.isRequired,
+      mode: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    }).isRequired,
     gridToggle: PropTypes.func.isRequired,
     actionSetMode: PropTypes.func.isRequired,
     actionSetText: PropTypes.func.isRequired,
@@ -44,20 +49,22 @@ export class TopActionBar extends Component {
 
   state = {
     picker: false,
+    selectedPreset: 'None',
   }
 
   handlePreset = (event) => {
-    const text = event.target.value
-    if(!text) {
+    const {value, options, selectedIndex} = event.target
+    this.setState({selectedPreset: options[selectedIndex].text})
+    if (!value) {
       return this.props.actionReset()
     }
-
-    if(this.props.players.includes(text)) {
-      return this.props.actionSetAll(presets.player(toUpper(text)))
+    if (this.props.players.includes(value)) {
+      return this.props.actionSetAll(presets.player(toUpper(value)))
     }
-
-    return this.props.actionSetAll(presets[text])
+    return this.props.actionSetAll(presets[value])
   }
+
+  handleFree = () => this.props.action.mode === MAPS_MODES.FREE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.FREE)
 
   render() {
     const { text, scale, color, mode } = this.props.action
@@ -75,17 +82,34 @@ export class TopActionBar extends Component {
     }
     return (
       <div className='row small-bottom-spacing'>
-        <div className='col-lg-2'></div>
+        <div className='col-lg-1'></div>
+
+        {/* BUTTON RESET */}
+        <div className='col-lg-1'>
+          <Button
+            className='buttons-margin'
+            bsStyle="warning"
+            onClick={() => {
+              this.props.actionReset()
+              this.setState({selectedPreset: 'None'})
+              }}
+          >
+            <Glyphicon glyph="cog" /> Reset
+          </Button>
+        </div>
+
         {/* SELECT PRESET */}
         <div className='col-lg-2'>
           {players.length > 0 ?
             <FormGroup controlId="formControlsSelect">
               <ControlLabel>Select preset</ControlLabel>
               <FormControl
+                ref={o => this.presetSelect = o}
                 onChange={this.handlePreset}
                 componentClass="select"
+                value={mode}
               >
-                <option value=''>None</option>
+                <option value=''>{this.state.selectedPreset}</option>
                 <option disabled>──────────</option>
                 {players.map((player, index) =>
                   <option key={index} value={player}>{`Player : ${player}`}</option>
@@ -107,7 +131,10 @@ export class TopActionBar extends Component {
           <FormGroup controlId="formControlsSelect">
             <ControlLabel>Select shape</ControlLabel>
             <FormControl
-              onChange={e => this.props.actionSetMode(e.target.value)}
+              onChange={e => {
+                this.props.actionSetMode(e.target.value)
+                this.setState({selectedPreset: 'None'})
+                }}
               componentClass="select"
               value={mode}
             >
@@ -125,7 +152,10 @@ export class TopActionBar extends Component {
         {/* INPUT TEXT */}
         <div className='col-lg-2'>
           <FieldGroup
-            onChange={e => this.props.actionSetText(e.target.value)}
+            onChange={e => {
+              this.props.actionSetText(e.target.value)
+              this.setState({selectedPreset: 'None'})
+              }}
             value={text}
             type="text"
             label="Text to write on shape"
@@ -136,7 +166,10 @@ export class TopActionBar extends Component {
         {/* INPUT NUMBER */}
         <div className='col-lg-1'>
           <FieldGroup
-            onChange={e => this.props.actionSetScale(Number(e.target.value) > 0 ? Number(e.target.value) : 1)}
+            onChange={e => {
+              this.props.actionSetScale(Number(e.target.value) > 0 ? Number(e.target.value) : 1)
+              this.setState({selectedPreset: 'None'})
+              }}
             value={scale}
             type="number"
             label="Scale"
@@ -163,21 +196,43 @@ export class TopActionBar extends Component {
               <TwitterPicker
                 color={color}
                 colors={PICKER_COLORS}
-                onChange={(color, e) => this.props.actionSetColor(color.hex)}
+                onChange={(color, e) => {
+                  this.props.actionSetColor(color.hex)
+                  this.setState({selectedPreset: 'None'})
+                  }}
               />
             </div>
             : null}
 
         </div>
 
-        {/* BUTTON RESET */}
-        <div className='col-lg-2'>
+        {/* FREE DRAW BUTTON */}
+        <div className='col-lg-1'>
           <Button
             className='buttons-margin'
-            bsStyle="warning"
-            onClick={this.props.actionReset}
+            bsStyle="primary"
+            active={mode === MAPS_MODES.FREE}
+            onClick={() => {
+              this.handleFree()
+              this.setState({selectedPreset: 'None'})
+              }}
           >
-            <Glyphicon glyph="trash" /> Reset config
+            <Glyphicon glyph="pencil" /> Draw
+          </Button>
+        </div>
+
+        {/* ERASE BUTTON */}
+        <div className='col-lg-1'>
+          <Button
+            className='buttons-margin'
+            bsStyle="danger"
+            active={mode === MAPS_MODES.ERASE}
+            onClick={() => {
+              this.props.action.mode === MAPS_MODES.ERASE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.ERASE)
+              this.setState({selectedPreset: 'None'})
+              }}
+          >
+            <Glyphicon glyph="erase" /> Erase
           </Button>
         </div>
       </div>

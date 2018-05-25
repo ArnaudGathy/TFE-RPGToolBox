@@ -8,7 +8,9 @@ import { Grid } from './grid'
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../constants/mapsSizes'
 import { connect } from 'react-redux'
 import { MapBadge } from './mapBadge'
+import {FreeDraw} from './freeDraw'
 import PropTypes from 'prop-types';
+import { MAPS_MODES } from '../constants/mapsActionsModes'
 
 const mapStateToProps = state => ({
   shapes: state.maps.shapes.list,
@@ -24,7 +26,12 @@ const mapDispatchToProps = {
 class Maps extends Component {
   static propTypes = {
     shapes: PropTypes.array.isRequired,
-    action: PropTypes.object.isRequired,
+    action: PropTypes.shape({
+      scale: PropTypes.number.isRequired,
+      mode: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    }).isRequired,
     shapesAdd: PropTypes.func.isRequired,
     setPlayers: PropTypes.func.isRequired,
   }
@@ -43,17 +50,19 @@ class Maps extends Component {
   handleClick = () => {
     const pos = this.StageRef._stage.getPointerPosition();
     const { mode, text, scale, color } = this.props.action
-    this.props.shapesAdd(
-      <MapBadge
-        type={mode}
-        text={text}
-        scale={scale}
-        color={color}
-        x={pos.x}
-        y={pos.y}
-        key={this.props.shapes.length}
-      />
-    )
+    if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, ''].includes(mode)) {
+      this.props.shapesAdd(
+        <MapBadge
+          type={mode}
+          text={text}
+          scale={scale}
+          color={color}
+          x={pos.x}
+          y={pos.y}
+          key={this.props.shapes.length}
+        />
+      )
+    }
   }
 
   render() {
@@ -77,10 +86,12 @@ class Maps extends Component {
               onClick={this.handleClick}
             >
               <Layer>
+                <FreeDraw key={0} color={this.props.action.color} />
                 {this.props.shapes}
+                <Grid />
               </Layer>
               <Layer>
-                <Grid />
+                
               </Layer>
             </Stage>
           </div>

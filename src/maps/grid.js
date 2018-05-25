@@ -17,7 +17,7 @@ export class Grid extends React.Component {
   renderHorizontalLines = () => {
     const horizontalLines = []
     for(let y = GRID_GAP; y < STAGE_HEIGHT; y += GRID_GAP) {
-      horizontalLines.push(<Line key={`0, ${y}, ${STAGE_WIDTH}, ${y}`} stroke='#d7d4d4' strokeWidth='1' points={[0, y, STAGE_WIDTH, y]}/>)
+      horizontalLines.push(<Line key={`0, ${y}, ${STAGE_WIDTH}, ${y}`} stroke='#d9d9d9' strokeWidth='2' opacity={0.5} points={[0, y, STAGE_WIDTH, y]}/>)
     }
     return horizontalLines
   }
@@ -25,7 +25,7 @@ export class Grid extends React.Component {
   renderVericalLines = () => {
     const vericalLines = []
     for(let x = GRID_GAP; x < STAGE_WIDTH; x += GRID_GAP) {
-      vericalLines.push(<Line key={`${x}, 0, ${x}, ${STAGE_WIDTH}`} stroke='#d7d4d4' strokeWidth='1' points={[x, 0, x, STAGE_WIDTH]}/>)
+      vericalLines.push(<Line key={`${x}, 0, ${x}, ${STAGE_WIDTH}`} stroke='#d9d9d9' strokeWidth='2' opacity={0.5} points={[x, 0, x, STAGE_WIDTH]}/>)
     }
     return vericalLines
   }

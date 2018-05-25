@@ -4,10 +4,12 @@ import { gridToggle } from '../reducers/actions/grid'
 import { shapesClear } from '../reducers/actions/shapes'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
+import { STAGE_WIDTH, STAGE_HEIGHT } from '../constants/mapsSizes'
 
 const mapStateToProps = state => ({
   gridVisible: state.maps.grid.visible,
   action: state.maps.action,
+  context: state.maps.shapes.drawContext,
 })
 
 const mapDispatchToProps = {
@@ -21,11 +23,17 @@ export class LeftActionBar extends Component {
     gridVisible: PropTypes.bool.isRequired,
     gridToggle: PropTypes.func.isRequired,
     shapesClear: PropTypes.func.isRequired,
+    context: PropTypes.object,
+  }
+
+  handleClear = () => {
+    this.props.shapesClear()
+    this.props.context.clearRect(0, 0, STAGE_WIDTH, STAGE_HEIGHT);
   }
 
   render() {
     return (
-      <div className='row'>
+      <div>
         {/* BUTTON GRID */}
         <Button
           className='buttons-margin'
@@ -39,9 +47,9 @@ export class LeftActionBar extends Component {
         <Button
           className='buttons-margin'
           bsStyle="danger"
-          onClick={this.props.shapesClear}
+          onClick={this.handleClear}
         >
-          <Glyphicon glyph="erase" /> Clear canvas
+          <Glyphicon glyph="trash" /> Clear
           </Button>
       </div>
     )

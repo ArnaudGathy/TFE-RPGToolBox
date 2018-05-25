@@ -9,6 +9,7 @@ const initialState = {
   },
   shapes: {
     list: [],
+    drawContext: null,
   },
   grid: {
     visible: true,
@@ -26,10 +27,13 @@ export const mapsReducer = (state = initialState, action) => {
   if(action.type === 'SHAPES_ADD') {
     const newList = state.shapes.list.slice()
     newList.push(action.shape)
-    return {...state, shapes: { list: newList}}
+    return {...state, shapes: { ...state.shapes, list: newList}}
   }
   if(action.type === 'SHAPES_CLEAR') {
-    return {...state, shapes: { list: []}}
+    return {...state, shapes: { ...state.shapes, list: [] }}
+  }
+  if(action.type === 'SHAPES_SET_CONTEXT') {
+    return {...state, shapes: { ...state.shapes, drawContext: action.drawContext }}
   }
 
   if(action.type === 'ACTION_SET_MODE') {
@@ -48,11 +52,11 @@ export const mapsReducer = (state = initialState, action) => {
     return {...state, action: {...state.action, ...action.options}}
   }
   if(action.type === 'ACTION_RESET') {
-    return {...state, action: {mode: '', text: '', scale: 1, color: MAPS_COLORS.shapeDefault}}
+    return {...state, action: {...initialState.action}}
   }
 
   if(action.type === 'PLAYERS_SET') {
-    return {...state, players: { list: action.players}}
+    return {...state, players: { ...state.players, list: action.players}}
   }
 
   return state
