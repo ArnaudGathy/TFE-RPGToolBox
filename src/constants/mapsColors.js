@@ -7,6 +7,7 @@ export const MAPS_COLORS = {
 }
 
 export const PICKER_COLORS = [
+  '#000000',
   '#FF6900', 
   '#FCB900', 
   '#7BDCB5', 
@@ -15,8 +16,5 @@ export const PICKER_COLORS = [
   '#0693E3', 
   '#EB144C', 
   '#F78DA7', 
-  '#9900EF',
-  '#D9D9D9',
-  '#999999',
-  '#000000',
+  '#9900EF'
 ]

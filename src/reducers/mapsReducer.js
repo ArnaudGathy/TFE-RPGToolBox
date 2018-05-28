@@ -28,7 +28,6 @@ export const mapsReducer = (state = initialState, action) => {
   if(action.type === 'SHAPES_ADD') {
     const newList = state.shapes.list.slice()
     newList.push(action.shape)
-    console.log('ADD SHAPE')
     return {...state, shapes: { ...state.shapes, list: newList}}
   }
   if(action.type === 'SHAPES_CLEAR') {

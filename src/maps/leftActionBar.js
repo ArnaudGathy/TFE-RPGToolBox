@@ -2,6 +2,7 @@ import { Button, Glyphicon } from 'react-bootstrap';
 import React, { Component } from 'react';
 import { gridToggle } from '../reducers/actions/grid'
 import { shapesClear } from '../reducers/actions/shapes'
+import { actionReset } from '../reducers/actions/action'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { STAGE_WIDTH, STAGE_HEIGHT } from '../constants/mapsSizes'
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   gridToggle,
   shapesClear,
+  actionReset,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -24,6 +26,8 @@ export class LeftActionBar extends Component {
     gridToggle: PropTypes.func.isRequired,
     shapesClear: PropTypes.func.isRequired,
     context: PropTypes.object,
+    actionReset: PropTypes.func.isRequired,
+    handleState: PropTypes.func.isRequired,
   }
 
   handleClear = () => {
@@ -34,6 +38,7 @@ export class LeftActionBar extends Component {
   render() {
     return (
       <div>
+
         {/* BUTTON GRID */}
         <Button
           className='buttons-margin'
@@ -42,6 +47,18 @@ export class LeftActionBar extends Component {
         >
           <Glyphicon glyph="th" /> GRID
           </Button>
+
+        {/* BUTTON RESET */}
+        <Button
+          className='buttons-margin'
+          bsStyle="warning"
+          onClick={() => {
+            this.props.actionReset()
+            this.props.handleState()
+          }}
+        >
+          <Glyphicon glyph="cog" /> Reset
+        </Button>
 
         {/* BUTTON CLEAR */}
         <Button

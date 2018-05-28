@@ -46,17 +46,19 @@ export class TopActionBar extends Component {
     actionReset: PropTypes.func.isRequired,
     actionSetAll: PropTypes.func.isRequired,
     players: PropTypes.array.isRequired,
+    visibleState: PropTypes.object.isRequired,
+    changeImage: PropTypes.func.isRequired,
+    handleState: PropTypes.func.isRequired,
+    changeSelectedPreset: PropTypes.func.isRequired,
   }
 
   state = {
     picker: false,
-    selectedPreset: 'None',
-    activeImage: null,
   }
 
   handlePreset = (event) => {
     const { value, options, selectedIndex } = event.target
-    this.setState({ selectedPreset: options[selectedIndex].text })
+    this.props.changeSelectedPreset(options[selectedIndex].text)
     if (!value) {
       return this.props.actionReset()
     }
@@ -67,10 +69,6 @@ export class TopActionBar extends Component {
   }
 
   handleFree = () => this.props.action.mode === MAPS_MODES.FREE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.FREE)
-
-  handleActiveState = () => {
-    this.setState({ selectedPreset: 'None', activeImage: null})
-  }
 
   render() {
     const { text, scale, color, mode } = this.props.action
@@ -88,41 +86,37 @@ export class TopActionBar extends Component {
     }
     return (
       <div className='row small-bottom-spacing'>
-        {/* BUTTON RESET
-        <div className='col-lg-1'>
-          <Button
-            className='buttons-margin'
-            bsStyle="warning"
-            onClick={() => {
-              this.props.actionReset()
-              this.handleActiveState()
-              }}
-          >
-            <Glyphicon glyph="cog" /> Reset
-          </Button>
-        </div> */}
-
         {/* BUTTON IMAGES */}
         <div className='col-lg-2'>
           <DropdownButton
             className='buttons-margin'
-            bsStyle='info'
-            title={this.state.activeImage ? this.state.activeImage.name : 'Images'}
+            bsStyle='default'
+            title={this.props.visibleState.activeImage ? this.props.visibleState.activeImage.name : 'Images'}
             id='SelectImage'
-            active={this.state.activeImage !== null}
+            active={this.props.visibleState.activeImage !== null}
           >
-            {MAPS_IMAGES.map((img, index) => 
             <MenuItem
-              active={this.state.activeImage === img}
+              active={!this.props.visibleState.activeImage}
               onClick={() => {
-                this.props.actionSetAll({mode: MAPS_MODES.IMG, uri: img.uri})
-                this.setState({ selectedPreset: 'None', activeImage: img})
-                }} 
-              key={index} 
-              eventKey={index}
+                this.props.actionSetAll({ mode: '', uri: '' })
+                this.props.handleState()
+              }}
             >
-              <img src={img.uri} alt='' /> {img.name}
-            </MenuItem>)
+              None
+            </MenuItem>
+            {MAPS_IMAGES.map((img, index) =>
+              <MenuItem
+                active={this.props.visibleState.activeImage === img}
+                onClick={() => {
+                  this.props.actionSetAll({ mode: MAPS_MODES.IMG, uri: img.uri })
+                  this.props.handleState()
+                  this.props.changeImage(img)
+                }}
+                key={index}
+                eventKey={index}
+              >
+                <img src={img.uri} alt='' /> {img.name}
+              </MenuItem>)
             }
           </DropdownButton>
         </div>
@@ -131,17 +125,17 @@ export class TopActionBar extends Component {
         <div className='col-lg-2'>
           {players.length > 0 ?
             <FormGroup controlId="formControlsSelect">
-              <ControlLabel>Select preset</ControlLabel>
+              <ControlLabel>Presets</ControlLabel>
               <FormControl
                 ref={o => this.presetSelect = o}
                 onChange={(e) => {
                   this.handlePreset(e)
-                  this.setState({activeImage: null})
-                  }}
+                  this.props.changeImage(null)
+                }}
                 componentClass="select"
                 value={mode}
               >
-                <option value=''>{this.state.selectedPreset}</option>
+                <option value=''>{this.props.visibleState.selectedPreset}</option>
                 <option disabled>──────────</option>
                 {players.map((player, index) =>
                   <option key={index} value={player}>{`Player : ${player}`}</option>
@@ -161,12 +155,12 @@ export class TopActionBar extends Component {
         {/* SELECT SHAPE */}
         <div className='col-lg-2'>
           <FormGroup controlId="formControlsSelect">
-            <ControlLabel>Select shape</ControlLabel>
+            <ControlLabel>Shape</ControlLabel>
             <FormControl
               onChange={e => {
                 this.props.actionSetMode(e.target.value)
-                this.handleActiveState()
-                }}
+                this.props.handleState()
+              }}
               componentClass="select"
               value={mode}
             >
@@ -186,8 +180,8 @@ export class TopActionBar extends Component {
           <FieldGroup
             onChange={e => {
               this.props.actionSetText(e.target.value)
-              this.setState({selectedPreset: 'None'})
-              }}
+              this.props.changeSelectedPreset('None')
+            }}
             value={text}
             type="text"
             label="Text to write on shape"
@@ -200,8 +194,8 @@ export class TopActionBar extends Component {
           <FieldGroup
             onChange={e => {
               this.props.actionSetScale(Number(e.target.value) > 0 ? Number(e.target.value) : 1)
-              this.setState({selectedPreset: 'None'})
-              }}
+              this.props.changeSelectedPreset('None')
+            }}
             value={scale}
             type="number"
             label="Scale"
@@ -216,7 +210,7 @@ export class TopActionBar extends Component {
               e.preventDefault()
               this.setState({ picker: !this.state.picker })
             }}
-            onChange={() => {}}
+            onChange={() => { }}
             value={color}
             type="color"
             label="Color"
@@ -230,8 +224,8 @@ export class TopActionBar extends Component {
                 colors={PICKER_COLORS}
                 onChange={(color) => {
                   this.props.actionSetColor(color.hex)
-                  this.setState({selectedPreset: 'None'})
-                  }}
+                  this.props.changeSelectedPreset('None')
+                }}
               />
             </div>
             : null}
@@ -246,8 +240,8 @@ export class TopActionBar extends Component {
             active={mode === MAPS_MODES.FREE}
             onClick={() => {
               this.handleFree()
-              this.handleActiveState()
-              }}
+              this.props.handleState()
+            }}
           >
             <Glyphicon glyph="pencil" /> Draw
           </Button>
@@ -261,8 +255,8 @@ export class TopActionBar extends Component {
             active={mode === MAPS_MODES.ERASE}
             onClick={() => {
               this.props.action.mode === MAPS_MODES.ERASE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.ERASE)
-              this.handleActiveState()
-              }}
+              this.props.handleState()
+            }}
           >
             <Glyphicon glyph="erase" /> Erase
           </Button>

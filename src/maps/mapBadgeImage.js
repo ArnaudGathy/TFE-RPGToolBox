@@ -39,7 +39,6 @@ export class MapBadgeImage extends Component {
   handleClick = () => {
     this.setState({image: null})
     this.shape.destroy()
-    console.log('DESTROY')
   }
 
   render() { 
@@ -47,10 +46,10 @@ export class MapBadgeImage extends Component {
       <Rect
         draggable
         ref={o => this.shape = o}
-        width={(GRID_GAP) - 5}
-        height={(GRID_GAP) - 5}
-        offsetY={((GRID_GAP) - 5) / 2}
-        offsetX={((GRID_GAP) - 5) / 2}
+        width={GRID_GAP}
+        height={GRID_GAP}
+        offsetY={(GRID_GAP) / 2}
+        offsetX={(GRID_GAP) / 2}
         x={this.state.x}
         y={this.state.y}
         fillPatternImage={this.state.image}

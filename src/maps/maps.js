@@ -38,6 +38,11 @@ class Maps extends Component {
     setPlayers: PropTypes.func.isRequired,
   }
 
+  state = {
+    selectedPreset: 'None',
+    activeImage: null,
+  }
+
   getPlayersArray = async () => {
     const response = await fetch('/api/players')
     const json = await response.json()
@@ -49,10 +54,22 @@ class Maps extends Component {
     this.props.setPlayers(players)
   }
 
+  handleActiveState = () => {
+    this.setState({ selectedPreset: 'None', activeImage: null })
+  }
+
+  changeImage = (param) => {
+    this.setState({activeImage: param})
+  }
+
+  changeSelectedPreset = (param) => {
+    this.setState({selectedPreset: param})
+  }
+
   handleClick = () => {
     const pos = this.StageRef._stage.getPointerPosition();
     const { mode, text, scale, color, uri } = this.props.action
-    if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, MAPS_MODES.IMG, ''].includes(mode)) {
+    if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, MAPS_MODES.IMG].includes(mode)) {
       return this.props.shapesAdd(
         <MapBadge
           type={mode}
@@ -81,12 +98,12 @@ class Maps extends Component {
     return (
       <div className="container">
         <div>
-          <TopActionBar />
+          <TopActionBar visibleState={this.state} handleState={this.handleActiveState} changeImage={this.changeImage} changeSelectedPreset={this.changeSelectedPreset} />
         </div>
 
         <div className='flex'>
           <div className='actionBar'>
-            <LeftActionBar />
+            <LeftActionBar handleState={this.handleActiveState} />
           </div>
           
           <div className='maps'>

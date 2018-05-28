@@ -40,14 +40,18 @@ export class FreeDraw extends Component {
   }
 
   handleMouseDown = () => {
-    this.setState({ isDrawing: true });
+    if ([MAPS_MODES.FREE, MAPS_MODES.ERASE].includes(this.props.action.mode)) {
+      this.setState({ isDrawing: true });
 
-    const stage = this.image.parent.parent;
-    this.lastPointerPosition = stage.getPointerPosition();
+      const stage = this.image.parent.parent;
+      this.lastPointerPosition = stage.getPointerPosition();
+    }
   };
 
   handleMouseUp = () => {
-    this.setState({ isDrawing: false });
+    if ([MAPS_MODES.FREE, MAPS_MODES.ERASE].includes(this.props.action.mode)) {
+      this.setState({ isDrawing: false });
+    }
   };
 
   handleMouseMove = () => {

@@ -34,11 +34,6 @@ export class MapBadge extends React.Component {
     });
   }
 
-  handleClick = () => {
-    this.shape.destroy()
-    console.log('DESTROY')
-  }
-
   getExtraAttrs = () => {
     const { type, scale } = this.props
     if (type === MAPS_MODES.STAR) {
@@ -138,7 +133,7 @@ export class MapBadge extends React.Component {
           fill={color}
           draggable
           onDragEnd={this.handleDragEnd}
-          onClick={this.handleClick}
+          onClick={() => this.shape.destroy()}
         />
     )
   }
