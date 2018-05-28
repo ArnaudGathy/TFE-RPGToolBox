@@ -1,4 +1,4 @@
-import { Button, Glyphicon, FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import { Button, Glyphicon, FormControl, FormGroup, ControlLabel, DropdownButton, MenuItem } from 'react-bootstrap';
 import { FieldGroup } from '../components/fieldGroup'
 import React, { Component } from 'react';
 import { gridToggle } from '../reducers/actions/grid'
@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 import { PICKER_COLORS } from '../constants/mapsColors'
 import { TwitterPicker } from 'react-color';
+import { MAPS_IMAGES } from '../constants/mapsImages'
 import { toUpper } from 'ramda'
 
 const mapStateToProps = state => ({
@@ -50,11 +51,12 @@ export class TopActionBar extends Component {
   state = {
     picker: false,
     selectedPreset: 'None',
+    activeImage: null,
   }
 
   handlePreset = (event) => {
-    const {value, options, selectedIndex} = event.target
-    this.setState({selectedPreset: options[selectedIndex].text})
+    const { value, options, selectedIndex } = event.target
+    this.setState({ selectedPreset: options[selectedIndex].text })
     if (!value) {
       return this.props.actionReset()
     }
@@ -65,6 +67,10 @@ export class TopActionBar extends Component {
   }
 
   handleFree = () => this.props.action.mode === MAPS_MODES.FREE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.FREE)
+
+  handleActiveState = () => {
+    this.setState({ selectedPreset: 'None', activeImage: null})
+  }
 
   render() {
     const { text, scale, color, mode } = this.props.action
@@ -82,20 +88,43 @@ export class TopActionBar extends Component {
     }
     return (
       <div className='row small-bottom-spacing'>
-        <div className='col-lg-1'></div>
-
-        {/* BUTTON RESET */}
+        {/* BUTTON RESET
         <div className='col-lg-1'>
           <Button
             className='buttons-margin'
             bsStyle="warning"
             onClick={() => {
               this.props.actionReset()
-              this.setState({selectedPreset: 'None'})
+              this.handleActiveState()
               }}
           >
             <Glyphicon glyph="cog" /> Reset
           </Button>
+        </div> */}
+
+        {/* BUTTON IMAGES */}
+        <div className='col-lg-2'>
+          <DropdownButton
+            className='buttons-margin'
+            bsStyle='info'
+            title={this.state.activeImage ? this.state.activeImage.name : 'Images'}
+            id='SelectImage'
+            active={this.state.activeImage !== null}
+          >
+            {MAPS_IMAGES.map((img, index) => 
+            <MenuItem
+              active={this.state.activeImage === img}
+              onClick={() => {
+                this.props.actionSetAll({mode: MAPS_MODES.IMG, uri: img.uri})
+                this.setState({ selectedPreset: 'None', activeImage: img})
+                }} 
+              key={index} 
+              eventKey={index}
+            >
+              <img src={img.uri} alt='' /> {img.name}
+            </MenuItem>)
+            }
+          </DropdownButton>
         </div>
 
         {/* SELECT PRESET */}
@@ -105,7 +134,10 @@ export class TopActionBar extends Component {
               <ControlLabel>Select preset</ControlLabel>
               <FormControl
                 ref={o => this.presetSelect = o}
-                onChange={this.handlePreset}
+                onChange={(e) => {
+                  this.handlePreset(e)
+                  this.setState({activeImage: null})
+                  }}
                 componentClass="select"
                 value={mode}
               >
@@ -133,7 +165,7 @@ export class TopActionBar extends Component {
             <FormControl
               onChange={e => {
                 this.props.actionSetMode(e.target.value)
-                this.setState({selectedPreset: 'None'})
+                this.handleActiveState()
                 }}
               componentClass="select"
               value={mode}
@@ -184,7 +216,7 @@ export class TopActionBar extends Component {
               e.preventDefault()
               this.setState({ picker: !this.state.picker })
             }}
-            onChange={() => { }}
+            onChange={() => {}}
             value={color}
             type="color"
             label="Color"
@@ -196,7 +228,7 @@ export class TopActionBar extends Component {
               <TwitterPicker
                 color={color}
                 colors={PICKER_COLORS}
-                onChange={(color, e) => {
+                onChange={(color) => {
                   this.props.actionSetColor(color.hex)
                   this.setState({selectedPreset: 'None'})
                   }}
@@ -214,7 +246,7 @@ export class TopActionBar extends Component {
             active={mode === MAPS_MODES.FREE}
             onClick={() => {
               this.handleFree()
-              this.setState({selectedPreset: 'None'})
+              this.handleActiveState()
               }}
           >
             <Glyphicon glyph="pencil" /> Draw
@@ -229,7 +261,7 @@ export class TopActionBar extends Component {
             active={mode === MAPS_MODES.ERASE}
             onClick={() => {
               this.props.action.mode === MAPS_MODES.ERASE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.ERASE)
-              this.setState({selectedPreset: 'None'})
+              this.handleActiveState()
               }}
           >
             <Glyphicon glyph="erase" /> Erase

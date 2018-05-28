@@ -23,30 +23,21 @@ export class MapBadge extends React.Component {
   }
 
   state = {
-    // image: null,
     x: this.props.x,
     y: this.props.y,
   }
-
-  // TODO ADD IMAGES FOR PRESET CHARS
-
-  // componentDidMount() {
-  //   const image = new window.Image();
-  //   image.src = require('../assets/images/belward.png');
-  //   image.onload = () => {
-  //     this.setState({
-  //       image: image
-  //     })
-  //   }
-  //   fillPatternImage: this.state.image,
-  // }
 
   handleDragEnd = e => {
     this.setState({
       x: e.target.x(),
       y: e.target.y(),
     });
-  };
+  }
+
+  handleClick = () => {
+    this.shape.destroy()
+    console.log('DESTROY')
+  }
 
   getExtraAttrs = () => {
     const { type, scale } = this.props
@@ -147,7 +138,7 @@ export class MapBadge extends React.Component {
           fill={color}
           draggable
           onDragEnd={this.handleDragEnd}
-          onClick={() => this.shape.destroy()}
+          onClick={this.handleClick}
         />
     )
   }

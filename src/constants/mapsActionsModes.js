@@ -7,4 +7,5 @@ export const MAPS_MODES = {
   RING: 'Ring',
   FREE: 'free',
   ERASE: 'erase',
+  IMG: 'image',
 }

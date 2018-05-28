@@ -11,6 +11,7 @@ import { MapBadge } from './mapBadge'
 import {FreeDraw} from './freeDraw'
 import PropTypes from 'prop-types';
 import { MAPS_MODES } from '../constants/mapsActionsModes'
+import {MapBadgeImage} from './mapBadgeImage'
 
 const mapStateToProps = state => ({
   shapes: state.maps.shapes.list,
@@ -31,6 +32,7 @@ class Maps extends Component {
       mode: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
+      uri: PropTypes.string.isRequired,
     }).isRequired,
     shapesAdd: PropTypes.func.isRequired,
     setPlayers: PropTypes.func.isRequired,
@@ -49,9 +51,9 @@ class Maps extends Component {
 
   handleClick = () => {
     const pos = this.StageRef._stage.getPointerPosition();
-    const { mode, text, scale, color } = this.props.action
-    if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, ''].includes(mode)) {
-      this.props.shapesAdd(
+    const { mode, text, scale, color, uri } = this.props.action
+    if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, MAPS_MODES.IMG, ''].includes(mode)) {
+      return this.props.shapesAdd(
         <MapBadge
           type={mode}
           text={text}
@@ -60,8 +62,18 @@ class Maps extends Component {
           x={pos.x}
           y={pos.y}
           key={this.props.shapes.length}
-        />
-      )
+        />)
+    }
+
+    if(mode === MAPS_MODES.IMG) {
+      return this.props.shapesAdd(
+      <MapBadgeImage 
+        uri={uri} 
+        x={pos.x}
+        y={pos.y} 
+        scale={scale}
+        key={this.props.shapes.length}
+      />)
     }
   }
 
