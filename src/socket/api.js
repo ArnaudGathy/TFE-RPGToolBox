@@ -1,6 +1,12 @@
 import io from 'socket.io-client';
 const host = window.location.hostname;
-const socket = io(`http://${host}:8000`);
+let socket = ''
+if(host === 'localhost') {
+    socket = io(`http://${host}:8000`);
+} else {
+    socket = io(`https://${host}:8000`);
+}
+
 
 export function addMessage(list, cb) {
     socket.on('chat message', (msg) => {
