@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 const host = window.location.hostname;
-const socket = host === 'localhost' ? io(`http://${host}:8000`) : io(`https://${host}:8000`)
+const socket = host === 'localhost' ? io(`http://${host}:8000`) : io()
 
 
 export function addMessage(list, cb) {
@@ -20,7 +20,7 @@ export function disconnect() {
     socket.disconnect()    
 }
 export function connect() {
-    socket.connect()
+    socket.connect();
 }
 export function askStatus(cb) {
     socket.emit('ask status');

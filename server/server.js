@@ -3,8 +3,8 @@ import * as bodyParser from 'body-parser';
 import PlayersRouter from './routes/players.router';
 import DefaultRouter from './routes/default.router';
 import path from 'path';
-const express = require('express');
-const io = require('socket.io')();
+import SocketIO from 'socket.io';
+import express from 'express'
 
 
 export default class Server {
@@ -16,7 +16,7 @@ export default class Server {
     }
 
     middleware() {
-		this.express.use(express.static(path.join(__dirname, '..', 'build')))
+        this.express.use(express.static(path.join(__dirname, '..', 'build')))
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
     }
@@ -24,6 +24,9 @@ export default class Server {
     routes() {
         this.express.use('/api/players', new PlayersRouter().router);
         this.express.use('/', new DefaultRouter().router);
+        this.express.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+           });
     }
     
     start() {
@@ -39,17 +42,13 @@ export default class Server {
       }
 
     socket() {
-        let port = 8000;
-        io.listen(port);
-        console.log("Socket.io listening on localhost:" + port);
-
+        const io = process.env.PORT ? SocketIO(this.server) : SocketIO.listen(8000);
 
         let plist = [];
         let started = false;
 
         io.on('connection', (socket) => {
             io.emit('get players', plist);
-
 
             socket.on('chat message', (msg) => {
                 io.emit('chat message', msg);
