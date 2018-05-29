@@ -24,9 +24,9 @@ export default class Server {
     routes() {
         this.express.use('/api/players', new PlayersRouter().router);
         this.express.use('/', new DefaultRouter().router);
-        this.express.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-           });
+        // this.express.get('*', (req, res) => {
+        //     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+        // });
     }
     
     start() {
