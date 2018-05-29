@@ -43,15 +43,16 @@ class Maps extends Component {
     activeImage: null,
   }
 
+  
+  async componentDidMount() {
+    const players = await this.getPlayersArray()
+    this.props.setPlayers(players)
+  }
+
   getPlayersArray = async () => {
     const response = await fetch('/api/players')
     const json = await response.json()
     return json.map(player => player.name)
-  }
-
-  async componentDidMount() {
-    const players = await this.getPlayersArray()
-    this.props.setPlayers(players)
   }
 
   handleActiveState = () => {
