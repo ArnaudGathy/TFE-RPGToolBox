@@ -2,7 +2,6 @@ import io from 'socket.io-client';
 const host = window.location.hostname;
 const socket = host === 'localhost' ? io(`http://${host}:8000`) : io()
 
-
 export function addMessage(list, cb) {
     socket.on('chat message', (msg) => {
         list.push(msg);
