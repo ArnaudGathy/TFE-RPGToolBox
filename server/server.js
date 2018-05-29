@@ -2,6 +2,7 @@ import * as http from 'http';
 import * as bodyParser from 'body-parser';
 import PlayersRouter from './routes/players.router';
 import DefaultRouter from './routes/default.router';
+import path from 'path';
 const express = require('express');
 const io = require('socket.io')();
 
@@ -15,6 +16,7 @@ export default class Server {
     }
 
     middleware() {
+		this.express.use(express.static(path.join(__dirname, '..', 'build')))
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
     }
