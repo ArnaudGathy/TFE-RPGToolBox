@@ -32,8 +32,8 @@ export default class Server {
     start() {
         this.port = process.env.PORT || 3000;
         this.express.set('port', this.port);
-        this.server = http.createServer(this.express);
-        this.server.listen(this.port, () => console.log(`Node/Express server running on localhost:${this.port}`));
+        //this.server = http.createServer(this.express);
+        this.express.listen(this.port, () => console.log(`Node/Express server running on : ${this.port}`));
     }
 
     sortPlayer(plist) {
@@ -42,7 +42,7 @@ export default class Server {
       }
 
     socket() {
-        const io = process.env.PORT ? SocketIO(this.server) : SocketIO.listen(8000);
+        const io = process.env.PORT ? SocketIO(this.express) : SocketIO.listen(8000);
 
         let plist = [];
         let started = false;
