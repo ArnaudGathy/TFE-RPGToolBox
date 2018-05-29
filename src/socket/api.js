@@ -1,6 +1,4 @@
-import io from 'socket.io-client';
-const host = window.location.hostname;
-const socket = host === 'localhost' ? io(`http://${host}:8000`) : io('/')
+import {socket} from '../app'
 
 export function addMessage(list, cb) {
     socket.on('chat message', (msg) => {
@@ -13,6 +11,7 @@ export function sendMessage(event, input) {
     event.preventDefault();
     socket.emit('chat message', input.value);
     input.value = "";
+
 }
 
 export function disconnect() {
