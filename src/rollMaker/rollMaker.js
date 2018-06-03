@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { ListGroupItem } from 'react-bootstrap';
-import { choosePlayer, getPlayers, sendRoll, stopRollsClient } from '../socket/api';
+import { choosePlayer, getPlayers, sendRoll, stopRollsClient, disconnect } from '../socket/api';
 import PlayerList from '../rollMaker/playerList';
 import RollInput from '../rollMaker/rollInput';
-
-
 
 export class RollMaker extends Component {
   state = {
@@ -24,6 +22,10 @@ export class RollMaker extends Component {
     stopRollsClient(() => {
       this.setState({started: false, playerList: [], player: ""})
     })
+  }
+
+  componentWillUnmount() {
+    disconnect()
   }
 
   choosePlayer(player) {
