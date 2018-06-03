@@ -8,16 +8,22 @@ const PlayerList = (props) => {
         props.isWaiting
           ? (
             <div className="col-xs-12">
+              <PageHeader>
+                Ready to roll ?
+              </PageHeader>
               <Alert bsStyle="info">
-                Waiting for GM prompt ...
+                Waiting for GM prompt.
               </Alert>
             </div>
 
           )
           : props.isFinishedRolling
             ? <div>
+                <PageHeader>
+                  Waiting
+                </PageHeader>
                 <Alert bsStyle="info">
-                  Let's wait for other players ...
+                  Let's wait for other players.
                 </Alert>
               </div>
             : (
