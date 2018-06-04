@@ -22,6 +22,11 @@ export default class Server {
     }
 
     routes() {
+        this.express.use((req, res, next) => {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+          });
         this.express.use('/api/players', new PlayersRouter().router);
         this.express.use('/', new DefaultRouter().router);
         // this.express.get('*', (req, res) => {
