@@ -13,6 +13,7 @@ import PropTypes from 'prop-types';
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 import {MapBadgeImage} from './mapBadgeImage'
 import { PageHeader } from 'react-bootstrap';
+import { BACKEND_URL } from '../constants/server'
 
 const mapStateToProps = state => ({
   shapes: state.maps.shapes.list,
@@ -51,7 +52,7 @@ class Maps extends Component {
   }
 
   getPlayersArray = async () => {
-    const response = await fetch('/api/players')
+    const response = await fetch(`${BACKEND_URL}/api/players`)
     const json = await response.json()
     return json.map(player => player.name)
   }

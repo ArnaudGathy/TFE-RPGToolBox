@@ -5,6 +5,7 @@ import ActionBar from './actionBar';
 import { sendPlayerList, stopRolls, receiveRoll, askStatus } from '../socket/api';
 import { path } from 'ramda';
 import { PageHeader } from 'react-bootstrap';
+import { BACKEND_URL } from '../constants/server'
 import keydown from 'react-keydown';
 import '../style.css';
 
@@ -40,7 +41,7 @@ export class Initiative extends Component {
   }
 
   getPlayersArray() {
-    fetch('/api/players')
+    fetch(`${BACKEND_URL}/api/players`)
       .then(response => response.json())
       .then((json) => {
         let playerList = []
