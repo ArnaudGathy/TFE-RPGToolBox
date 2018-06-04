@@ -2,7 +2,13 @@ import io from 'socket.io-client';
 import { BACKEND_URL } from '../constants/server'
 
 const host = window.location.hostname;
-const socket = host === 'localhost' ? io(`http://${host}:8000`) : io(BACKEND_URL)
+const connectionOptions = {
+    "force new connection": true,
+    "reconnectionAttempts": "Infinity",
+    "timeout": 10000,
+    "transports": ["websocket"]
+};
+const socket = host === 'localhost' ? io(`http://${host}:8000`) : io(BACKEND_URL, connectionOptions)
 
 export function addMessage(list, cb) {
     socket.on('chat message', (msg) => {
