@@ -4,6 +4,7 @@ import { InputNPC } from './inputNPC';
 import ActionBar from './actionBar';
 import { sendPlayerList, stopRolls, receiveRoll, askStatus } from '../socket/api';
 import { path } from 'ramda';
+import { PageHeader } from 'react-bootstrap';
 import keydown from 'react-keydown';
 import '../style.css';
 
@@ -297,6 +298,9 @@ export class Initiative extends Component {
   render() {
     return (
       <div className="container">
+        <PageHeader className="large-bottom-spacing">
+          {this.state.started ? "Combat" : "Initiative check"}
+        </PageHeader>
         <InputNPC
           onSubmit={this.addNPC.bind(this)}
           started={this.state.started}

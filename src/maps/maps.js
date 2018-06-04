@@ -12,6 +12,7 @@ import {FreeDraw} from './freeDraw'
 import PropTypes from 'prop-types';
 import { MAPS_MODES } from '../constants/mapsActionsModes'
 import {MapBadgeImage} from './mapBadgeImage'
+import { PageHeader } from 'react-bootstrap';
 
 const mapStateToProps = state => ({
   shapes: state.maps.shapes.list,
@@ -98,6 +99,10 @@ class Maps extends Component {
   render() {
     return (
       <div className="container">
+        <PageHeader className="large-bottom-spacing">
+          Maps
+        </PageHeader>
+
         <div>
           <TopActionBar visibleState={this.state} handleState={this.handleActiveState} changeImage={this.changeImage} changeSelectedPreset={this.changeSelectedPreset} />
         </div>

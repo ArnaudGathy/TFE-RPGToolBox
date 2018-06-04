@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { addMessage, sendMessage } from '../socket/api';
-
+import { PageHeader } from 'react-bootstrap';
 
 export class Messenger extends Component {
   state = {
@@ -17,7 +17,10 @@ export class Messenger extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
+        <PageHeader>
+          Messenger
+        </PageHeader>
         <ul id="messages">
           {this.renderList()}
         </ul>
@@ -26,7 +29,9 @@ export class Messenger extends Component {
             ref={node => {
               this.messageInput = node
             }}
-            type="text" />
+            type="text" 
+            placeholder="Message"
+            />
           <button>Send</button>
         </form>
       </div>
