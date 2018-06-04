@@ -25,6 +25,7 @@ export default class Server {
         this.express.use((req, res, next) => {
             res.header("Access-Control-Allow-Origin", 'https://rpg-toolbox.netlify.com');
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            res.header("Access-Control-Allow-Credentials", "true");
             next();
           });
         this.express.use('/api/players', new PlayersRouter().router);
