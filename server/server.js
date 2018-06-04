@@ -16,7 +16,7 @@ export default class Server {
     }
 
     middleware() {
-        this.express.use(express.static(path.join(__dirname, '..', 'build')))
+        //this.express.use(express.static(path.join(__dirname, '..', 'build')))
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
     }
@@ -24,9 +24,9 @@ export default class Server {
     routes() {
         this.express.use('/api/players', new PlayersRouter().router);
         this.express.use('/', new DefaultRouter().router);
-        this.express.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-        });
+        // this.express.get('*', (req, res) => {
+        //     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+        // });
     }
     
     start() {
