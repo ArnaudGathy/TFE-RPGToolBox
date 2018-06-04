@@ -23,7 +23,7 @@ export default class Server {
 
     routes() {
         this.express.use((req, res, next) => {
-            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Origin", 'https://rpg-toolbox.netlify.com/');
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
           });
