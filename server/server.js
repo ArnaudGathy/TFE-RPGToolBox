@@ -48,8 +48,7 @@ export default class Server {
       }
 
     socket() {
-        const io = process.env.PORT ? SocketIO(this.server) : SocketIO.listen(8000);
-        io.set('transports', ['websocket'])
+        const io = process.env.PORT ? SocketIO(this.server, {transports: ['websocket']}) : SocketIO.listen(8000);
 
         let plist = [];
         let started = false;
