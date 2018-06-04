@@ -8,7 +8,7 @@ export class Welcome extends Component {
       <Fragment>
         <div className="jumbotron">
           <div className="container">
-            <h1>Welcome, adventurer!</h1>
+            <h1>Welcome, adventurer !</h1>
             <p>This is a tool for both Game Masters and Players to assist in role-playing games. <br /> May your journey be safe and the loots plentyful.</p>
           </div>
         </div>
