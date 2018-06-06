@@ -3,10 +3,10 @@ import { FieldGroup } from '../components/fieldGroup'
 import React, { Component } from 'react';
 import { gridToggle } from '../reducers/actions/grid'
 import { presets } from '../constants/mapsPresets'
-import { actionSetMode, actionSetText, actionSetScale, actionReset, actionSetColor, actionSetAll } from '../reducers/actions/action'
+import { actionSetMode, actionSetText, actionSetScale, actionReset, actionSetColor, actionSetAll, actionSetWidth, actionSetHeight } from '../reducers/actions/action'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import { MAPS_MODES } from '../constants/mapsActionsModes'
+import { MAPS_MODES, WIDTH_HEIGHT, SCALED, COLORED, TEXTED } from '../constants/mapsActionsModes'
 import { PICKER_COLORS } from '../constants/mapsColors'
 import { TwitterPicker } from 'react-color';
 import { MAPS_IMAGES } from '../constants/mapsImages'
@@ -26,6 +26,8 @@ const mapDispatchToProps = {
   actionReset,
   actionSetColor,
   actionSetAll,
+  actionSetWidth,
+  actionSetHeight,
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -37,11 +39,15 @@ export class TopActionBar extends Component {
       mode: PropTypes.string.isRequired,
       color: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
+      rectWidth: PropTypes.number.isRequired,
+      rectHeight: PropTypes.number.isRequired,
     }).isRequired,
     gridToggle: PropTypes.func.isRequired,
     actionSetMode: PropTypes.func.isRequired,
     actionSetText: PropTypes.func.isRequired,
     actionSetScale: PropTypes.func.isRequired,
+    actionSetWidth: PropTypes.func.isRequired,
+    actionSetHeight: PropTypes.func.isRequired,
     actionSetColor: PropTypes.func.isRequired,
     actionReset: PropTypes.func.isRequired,
     actionSetAll: PropTypes.func.isRequired,
@@ -71,7 +77,7 @@ export class TopActionBar extends Component {
   handleFree = () => this.props.action.mode === MAPS_MODES.FREE ? this.props.actionSetMode('') : this.props.actionSetMode(MAPS_MODES.FREE)
 
   render() {
-    const { text, scale, color, mode } = this.props.action
+    const { text, scale, color, mode, rectHeight, rectWidth } = this.props.action
     const { players } = this.props
     const popover = {
       position: 'absolute',
@@ -169,6 +175,7 @@ export class TopActionBar extends Component {
               <option value=''>None</option>
               <option value={MAPS_MODES.SQUARE}>Square</option>
               <option value={MAPS_MODES.CIRCLE}>Circle</option>
+              <option value={MAPS_MODES.RECT}>Rectangle</option>
               <option value={MAPS_MODES.TRIANGLE}>Triangle</option>
               <option value={MAPS_MODES.DIAMOND}>Diamond</option>
               <option value={MAPS_MODES.STAR}>Star</option>
@@ -185,6 +192,7 @@ export class TopActionBar extends Component {
             type="text"
             label="Text to write on shape"
             placeholder={`Max ${scale * 3} chars displayed`}
+            disabled={!TEXTED.includes(mode)}
           />
         </div>
 
@@ -199,6 +207,7 @@ export class TopActionBar extends Component {
             type="number"
             label="Scale"
             placeholder="Scale"
+            disabled={!SCALED.includes(mode)}
           />
 
           <FieldGroup
@@ -211,6 +220,7 @@ export class TopActionBar extends Component {
             type="color"
             label="Color"
             placeholder="Color"
+            disabled={!COLORED.includes(mode)}
           />
           {this.state.picker
             ? <div style={popover}>
@@ -225,6 +235,33 @@ export class TopActionBar extends Component {
               />
             </div>
             : null}
+        </div>
+
+        {/* RECTANGLE SIZES */}
+        <div className='col-lg-2'>
+        <FieldGroup
+            onChange={e => {
+              this.props.actionSetWidth(Number(e.target.value) > 0 ? Number(e.target.value) : 1)
+              this.props.changeSelectedPreset('None')
+            }}
+            value={rectWidth}
+            type="number"
+            label={<Glyphicon glyph="resize-horizontal" />}
+            placeholder="Rctangle width"
+            disabled={!WIDTH_HEIGHT.includes(mode)}
+          />
+
+          <FieldGroup
+            onChange={e => {
+              this.props.actionSetHeight(Number(e.target.value) > 0 ? Number(e.target.value) : 1)
+              this.props.changeSelectedPreset('None')
+            }}
+            value={rectHeight}
+            type="number"
+            label={<Glyphicon glyph="resize-vertical" />}
+            placeholder="Rectangle height"
+            disabled={!WIDTH_HEIGHT.includes(mode)}
+          />
         </div>
 
         {/* SPACING */}

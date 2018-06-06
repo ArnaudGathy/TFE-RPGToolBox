@@ -13,6 +13,16 @@ export const actionSetScale = (scale) => ({
   scale,
 })
 
+export const actionSetWidth = (width) => ({
+  type: 'ACTION_SET_WIDTH',
+  width,
+})
+
+export const actionSetHeight = (height) => ({
+  type: 'ACTION_SET_HEIGHT',
+  height,
+})
+
 export const actionSetColor = (color) => ({
   type: 'ACTION_SET_COLOR',
   color,

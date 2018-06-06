@@ -43,7 +43,7 @@ export class Welcome extends Component {
           <hr />
 
           <footer>
-            <p>© Gathy Arnaud - TFE EPFC 2017-2018</p>
+            <p>© Gathy Arnaud - Travail de fin d'études - EPFC - Année académique 2017-2018</p>
           </footer>
         </div>
       </Fragment>

@@ -35,6 +35,8 @@ class Maps extends Component {
       color: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       uri: PropTypes.string.isRequired,
+      rectWidth: PropTypes.number.isRequired,
+      rectHeight: PropTypes.number.isRequired,
     }).isRequired,
     shapesAdd: PropTypes.func.isRequired,
     setPlayers: PropTypes.func.isRequired,
@@ -71,7 +73,7 @@ class Maps extends Component {
 
   handleClick = () => {
     const pos = this.StageRef._stage.getPointerPosition();
-    const { mode, text, scale, color, uri } = this.props.action
+    const { mode, text, scale, color, uri, rectWidth, rectHeight} = this.props.action
     if(![MAPS_MODES.FREE, MAPS_MODES.ERASE, MAPS_MODES.IMG].includes(mode)) {
       return this.props.shapesAdd(
         <MapBadge
@@ -81,6 +83,8 @@ class Maps extends Component {
           color={color}
           x={pos.x}
           y={pos.y}
+          rectWidth={rectWidth}
+          rectHeight={rectHeight}
           key={this.props.shapes.length}
         />)
     }
@@ -99,7 +103,7 @@ class Maps extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container large-bottom-spacing">
         <PageHeader className="large-bottom-spacing">
           Maps
         </PageHeader>

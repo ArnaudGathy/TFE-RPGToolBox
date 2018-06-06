@@ -12,6 +12,8 @@ export class MapBadge extends React.Component {
     scale: PropTypes.number,
     color: PropTypes.string,
     text: PropTypes.string,
+    rectWidth: PropTypes.number,
+    rectHeight: PropTypes.number,
   }
 
   static defaultProps = {
@@ -35,7 +37,7 @@ export class MapBadge extends React.Component {
   }
 
   getExtraAttrs = () => {
-    const { type, scale } = this.props
+    const { type, scale, rectWidth, rectHeight } = this.props
     if (type === MAPS_MODES.STAR) {
       return ({
         numPoints: 5,
@@ -76,6 +78,15 @@ export class MapBadge extends React.Component {
       })
     }
 
+    if (type === MAPS_MODES.RECT) {
+      return ({
+        offsetY: (GRID_GAP * rectHeight) / 2,
+        offsetX: (GRID_GAP * rectWidth) / 2,
+        width: GRID_GAP * rectWidth,
+        height: GRID_GAP * rectHeight,
+      })
+    }
+
     if (type === MAPS_MODES.CIRCLE) {
       return ({
         width: (GRID_GAP * scale) - 5,
@@ -83,6 +94,17 @@ export class MapBadge extends React.Component {
       })
     }
     return {}
+  }
+
+  getImageExtraAttrs = () => {
+    const { type, rectWidth, rectHeight } = this.props
+    if (type === MAPS_MODES.RECT) {
+      return ({
+        width: (GRID_GAP * rectWidth) - 5,
+        height: (GRID_GAP * rectHeight) - 5,
+        x: this.state.x - (((GRID_GAP * rectWidth) - 5) / 2),
+      })
+    }
   }
 
   render() {
@@ -93,9 +115,13 @@ export class MapBadge extends React.Component {
     }
 
     const extraAttrs = this.getExtraAttrs()
+    const imgExtraAttrs = this.getImageExtraAttrs()
 
     if (this.props.type === MAPS_MODES.TRIANGLE || this.props.type === MAPS_MODES.DIAMOND) {
       Shape = MAPS_MODES.STAR
+    }
+    if (this.props.type === MAPS_MODES.SQUARE) {
+      Shape = MAPS_MODES.RECT
     }
     return (
       text
@@ -122,6 +148,7 @@ export class MapBadge extends React.Component {
             fontFamily='monospace'
             fontSize={25}
             fill='white'
+            {...imgExtraAttrs}
           />
         </Group>
         :

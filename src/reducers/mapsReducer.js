@@ -7,6 +7,8 @@ const initialState = {
     scale: 1,
     color: MAPS_COLORS.shapeDefault,
     uri: '',
+    rectWidth: 1,
+    rectHeight: 1,
   },
   shapes: {
     list: [],
@@ -45,6 +47,12 @@ export const mapsReducer = (state = initialState, action) => {
   }
   if(action.type === 'ACTION_SET_SCALE') {
     return {...state, action: {...state.action, scale: action.scale}}
+  }
+  if(action.type === 'ACTION_SET_WIDTH') {
+    return {...state, action: {...state.action, rectWidth: action.width}}
+  }
+  if(action.type === 'ACTION_SET_HEIGHT') {
+    return {...state, action: {...state.action, rectHeight: action.height}}
   }
   if(action.type === 'ACTION_SET_COLOR') {
     return {...state, action: {...state.action, color: action.color}}
