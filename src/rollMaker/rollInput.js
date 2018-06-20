@@ -41,9 +41,9 @@ export class RollInput extends Component {
     let roll = this.state.roll;
     let init = this.props.player.initiative
     if(roll === "20") {
-      return "YOU ROLLED 20 ! EXTRA ASS KICKING";
+      return "YOU ROLLED 20 ! EXTRA ASS KICKING !";
     } else if(roll === "1") {
-      return "YOU ROLLED 1 ! YOU SUCK HARD";
+      return "YOU ROLLED 1 ! WELL ... TOO BAD.";
     } else {
       return `${roll} + ${init} = ${total}`;
     }
