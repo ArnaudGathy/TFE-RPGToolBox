@@ -2,7 +2,7 @@ import * as http from 'http';
 import * as bodyParser from 'body-parser';
 import PlayersRouter from './routes/players.router';
 import DefaultRouter from './routes/default.router';
-import path from 'path';
+import StuffRouter from './routes/stuff.router';
 import SocketIO from 'socket.io';
 import express from 'express'
 
@@ -29,6 +29,7 @@ export default class Server {
             next();
           });
         this.express.use('/api/players', new PlayersRouter().router);
+        this.express.use('/api/stuff', new StuffRouter().router);
         this.express.use('/', new DefaultRouter().router);
         // this.express.get('*', (req, res) => {
         //     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
@@ -96,7 +97,7 @@ export default class Server {
                 io.emit('stop rolls', plist);
             });
             socket.on('disconnect', () => {
-                if(socket.player !== undefined && socket.player !== ""  && !socket.player.hasRolled) {
+                if(socket.player !== undefined && socket.player !== "" && !socket.player.hasRolled) {
                     const newPList = plist.filter(pl => pl.id !== socket.player.id)
                     socket.player.isSelected = false;
                     newPList.push(socket.player)

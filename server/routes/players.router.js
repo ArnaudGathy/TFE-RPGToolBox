@@ -34,11 +34,12 @@ export default class PlayersRouter {
     }
 
 
+    const {mode} = sheets
     let urls = [];
-    let url = sheets.url.replace(sheets.BookReplace, sheets.book);
+    let url = sheets[mode].url.replace(sheets[mode].BookReplace, sheets[mode].book);
 
-    sheets.keylist.map(keys => {
-      urls.push(url.replace(sheets.KeyReplace, keys.key));
+    sheets[mode].keylist.map(keys => {
+      urls.push(url.replace(sheets[mode].KeyReplace, keys.key));
     })
 
     let promises = urls.map(url => {

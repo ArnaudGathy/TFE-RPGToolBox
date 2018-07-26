@@ -1,13 +1,28 @@
 {
-	"url": "https://spreadsheets.google.com/feeds/list/_KEY_/_BOOK_/public/values?alt=json",
-	"book": 4,
-	"BookReplace": "_BOOK_",
-	"KeyReplace": "_KEY_",
-	"keylist": [
-		{ "key": "1ta7WT6OEaE6HAFSvH9_jcyFLxYqJQ0nCl_WSsv_Gtvk" },
-		{ "key": "1sNth1vBv9_7maRShS1vDAQuJ8vLP6EQRCXZHxpvH55k" },
-		{ "key": "1xkL3E8gN6TNzkw9bpMntmNrwNDTkHuZKAmZ1yft5olw" },
-		{ "key": "1YEyYsPuRxkOgchbgpvKz--GSYzr7fRQLncoPpt4i_Ec" },
-		{ "key": "12NNs7PiC6yeJnwR1WBy3qs7fHg4sZkIcFXp3g0xVPiE" }
-	]
+	"mode": "talislanta",
+	"pathfinder": {
+		"url": "https://spreadsheets.google.com/feeds/list/_KEY_/_BOOK_/public/values?alt=json",
+		"book": 4,
+		"BookReplace": "_BOOK_",
+		"KeyReplace": "_KEY_",
+		"keylist": [
+			{ "key": "1ta7WT6OEaE6HAFSvH9_jcyFLxYqJQ0nCl_WSsv_Gtvk" },
+			{ "key": "1sNth1vBv9_7maRShS1vDAQuJ8vLP6EQRCXZHxpvH55k" },
+			{ "key": "1xkL3E8gN6TNzkw9bpMntmNrwNDTkHuZKAmZ1yft5olw" },
+			{ "key": "1YEyYsPuRxkOgchbgpvKz--GSYzr7fRQLncoPpt4i_Ec" },
+			{ "key": "12NNs7PiC6yeJnwR1WBy3qs7fHg4sZkIcFXp3g0xVPiE" }
+		]
+	},
+	"talislanta": {
+		"url": "https://spreadsheets.google.com/feeds/list/_KEY_/_BOOK_/public/values?alt=json",
+		"book": 3,
+		"BookReplace": "_BOOK_",
+		"KeyReplace": "_KEY_",
+		"keylist": [
+			{ "key": "1WLC1UNKc0IbzqoeO3bX9jZQgDlU2THCLr8TTIj9vNuo" },
+			{ "key": "1rvQ2Djh0ZX1EsZVRDyRPNhcfiyrrz2xubTmymD-jrjg" },
+			{ "key": "1T5bN8EwA5ZH1LOVvWyae3diiBJKZg3w_tDxKll5pdPE" },
+			{ "key": "1X-prNOHjhHFWohiDCoP6kKlVBuWG_LCXaxAHd2dLJFo" }
+		]
+	}
 }
