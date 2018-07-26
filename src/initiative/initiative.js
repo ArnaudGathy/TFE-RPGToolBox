@@ -6,6 +6,7 @@ import { sendPlayerList, stopRolls, receiveRoll, askStatus } from '../socket/api
 import { path } from 'ramda';
 import { PageHeader } from 'react-bootstrap';
 import { BACKEND_URL } from '../constants/server'
+import {Spinner} from '../spinner'
 import keydown from 'react-keydown';
 import '../style.css';
 
@@ -325,7 +326,7 @@ export class Initiative extends Component {
               changeHP={this.changeHP.bind(this)}
               started={this.state.started}
             />
-            : "Fetching ..."
+            : <Spinner />
         }
 
         <ActionBar

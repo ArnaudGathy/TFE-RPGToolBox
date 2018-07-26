@@ -1,1 +1,1 @@
-{"hello":"zesdfsf !"}
+[{"name":"Arnaud","items":[{"name":"Sword","durability":{"current":"100","total":"100"}},{"name":"Mace","durability":{"current":"0","total":"80"}}]},{"name":"Zogdur","items":[{"name":"Axe","durability":{"current":"15","total":"100"}},{"name":"Polearm","durability":{"current":"45","total":"100"}},{"name":"Epee longue a deux mains","durability":{"current":"70","total":"100"}}]},{"name":"Personnage","items":[]}]

@@ -20,6 +20,7 @@ export class Header extends Component {
                         <NavDropdown eventKey={3} title="Game Master" id="gm-drop">
                             <LinkContainer to="/init"><NavItem activeKey={1} eventKey={1}>Initiative</NavItem></LinkContainer>
                             <LinkContainer to="/maps"><NavItem activeKey={1} eventKey={2}>Maps</NavItem></LinkContainer>
+                            <LinkContainer to="/stuff"><NavItem activeKey={1} eventKey={2}>Stuff</NavItem></LinkContainer>
                         </NavDropdown>
                         <NavDropdown eventKey={3} title="Players" id="player-drop">
                             <LinkContainer onClick={connect} to="/roll"><NavItem activeKey={1} eventKey={1}>Roll</NavItem></LinkContainer>

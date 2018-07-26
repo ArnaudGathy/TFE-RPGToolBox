@@ -8,6 +8,7 @@
     "node": "v8.11.2"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
     "es6-promise": "^4.1.1",
     "eslint": "^4.19.1",
@@ -16,7 +17,7 @@
     "konva": "^2.0.2",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
-    "react-bootstrap": "^0.31.5",
+    "react-bootstrap": "^0.32.0",
     "react-color": "^2.14.1",
     "react-dom": "^16.2.0",
     "react-keydown": "^1.9.6",
@@ -35,8 +36,8 @@
   "scripts": {
     "server": "nodemon index.js --exec babel-node",
     "react": "set port=4200 && react-app-rewired start",
-	"build": "react-app-rewired build",
-	"prod": "npm run build && npm run server"
+    "build": "react-app-rewired build",
+    "prod": "npm run build && npm run server"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

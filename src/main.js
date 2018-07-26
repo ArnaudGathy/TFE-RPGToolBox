@@ -5,6 +5,7 @@ import Messenger from './messenger/messenger';
 import RollMaker from './rollMaker/rollMaker';
 import {Welcome} from './welcome'
 import Maps from './maps/maps';
+import Stuff from './stuff/stuff';
 
 const Main = () => {
     return (
@@ -15,6 +16,7 @@ const Main = () => {
                 <Route path="/messenger" component={Messenger} />
                 <Route path="/roll" component={RollMaker} />
                 <Route path="/maps" component={Maps} />
+                <Route path="/stuff" component={Stuff} />
             </Switch>
         </main>
     )

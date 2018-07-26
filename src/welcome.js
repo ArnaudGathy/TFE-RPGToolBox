@@ -34,9 +34,9 @@ export class Welcome extends Component {
               <p><a className="btn btn-info" onClick={() => this.props.history.push('/maps')} role="button">Draw a map »</a></p>
             </div>
             <div className="col-md-3">
-              <h2>Messenger</h2>
-              <p>This is a simple instant messanger. It's anonymouse so don't be shy. Let's discuss with other players about the game.</p>
-              <p><a className="btn btn-warning" onClick={() => this.props.history.push('/messenger')} role="button">Start chatting »</a></p>
+              <h2>Stuff</h2>
+              <p>Player loot stuff. A lot of stuff. You can manage the list and durability of each piece of equipment in this tool. It has never been easier.</p>
+              <p><a className="btn btn-warning" onClick={() => this.props.history.push('/stuff')} role="button">Manage stuff »</a></p>
             </div>
           </div>
 

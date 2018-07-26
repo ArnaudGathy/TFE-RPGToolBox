@@ -10,6 +10,7 @@ import { MAPS_MODES, WIDTH_HEIGHT, SCALED, COLORED, TEXTED } from '../constants/
 import { PICKER_COLORS } from '../constants/mapsColors'
 import { TwitterPicker } from 'react-color';
 import { MAPS_IMAGES } from '../constants/mapsImages'
+import {Spinner} from '../spinner'
 import { toUpper } from 'ramda'
 
 const mapStateToProps = state => ({
@@ -122,7 +123,7 @@ export class TopActionBar extends Component {
                 <option value='loot'>Object : Loot</option>
               </FormControl>
             </FormGroup>
-            : 'Fetching preset ...'}
+            : <Spinner />}
 
           <p><strong>Images</strong></p>
           <DropdownButton
