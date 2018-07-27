@@ -31,10 +31,17 @@ export default class Stuff extends Component {
     .catch(error => console.log(error))
   }
 
-  delete = (path, index) => {
-    axios.patch(`${BACKEND_URL}/api/stuff/delete`, {
+  deleteItem = (path) => {
+    axios.patch(`${BACKEND_URL}/api/stuff/item/delete`, {
       path,
-      index
+    })
+    .then(() => {})
+    .catch(error => console.log(error))
+  }
+
+  addItem = (path) => {
+    axios.patch(`${BACKEND_URL}/api/stuff/item/add`, {
+      path
     })
     .then(() => {})
     .catch(error => console.log(error))
@@ -51,7 +58,7 @@ export default class Stuff extends Component {
           {this.state.stuff ?
             this.state.stuff.map((player, index) =>
               <div className="col-md-12" key={index}>
-                <PlayerBlock player={player} playerIndex={index} send={this.sendValue} delete={this.delete} />
+                <PlayerBlock player={player} playerIndex={index} send={this.sendValue} delete={this.deleteItem} add={this.addItem} />
               </div>
             )
             :

@@ -1,1 +1,52 @@
-[{"name":"Arnaud","items":[{"name":"Sword d","durability":{"current":"100","total":"100"}},{"name":"Mace","durability":{"current":"30","total":"80"}}]},{"name":"Zogdur","items":[{"name":"Axe","durability":{"current":"20","total":"100"}},{"name":"Polearmddd","durability":{"current":"70","total":"100"}},{"name":"Epee longue a deux mains","durability":{"current":"70","total":"100"}}]},{"name":"Personnage","items":[]}]
+[
+  {
+    "name": "Arnaud",
+    "items": [
+      {
+        "name": "Nouvelle arme",
+        "durability": {
+          "current": "100",
+          "total": "100"
+        }
+      },
+      {
+        "name": "Nouvelle arme",
+        "durability": {
+          "current": "100",
+          "total": "100"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Logan",
+    "items": [
+      {
+        "name": "Nouvelle arme",
+        "durability": {
+          "current": "100",
+          "total": "100"
+        }
+      },
+      {
+        "name": "Nouvelle arme",
+        "durability": {
+          "current": "100",
+          "total": "100"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Loic",
+    "items": [
+      {
+        "name": "Nouvelle arme",
+        "durability": {
+          "current": "100",
+          "total": "100"
+        }
+      }
+    ]
+  }
+]

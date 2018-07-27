@@ -17,6 +17,8 @@ export class ItemBlock extends Component {
     total: this.props.item.durability.total,
     weaponName: this.props.item.name,
     editMode: false,
+    defaultAdd: 5,
+    customAdd: 0,
   }
 
   getStyle = (progress) => {
@@ -29,7 +31,7 @@ export class ItemBlock extends Component {
     if (progress <= 40) {
       return 'warning'
     }
-    return 'info'
+    return ''
   }
 
   onChangeTotal = (event) => this.setState({ total: event.target.value })
@@ -37,6 +39,8 @@ export class ItemBlock extends Component {
   onChangeCurrent = (event) => this.setState({ current: event.target.value })
 
   onChangeWeapon = (event) => this.setState({ weaponName: event.target.value })
+
+  onChangeCustomAdd = (event) => this.setState({customAdd: event.target.value})
 
 
   onBlurCurrent = (event) => this.props.send(event.target.value, [this.props.playerIndex, 'items', this.props.itemIndex, 'durability', 'current'])
@@ -50,10 +54,30 @@ export class ItemBlock extends Component {
 
   onClickWeaponName = () => this.setState({ editMode: true })
 
+  onClickAdd = (event, isCustom = false) => {
+    let newCurrent = Number(this.state.current) - (isCustom ? Number(this.state.customAdd) : Number(this.state.defaultAdd))
+    if(newCurrent < 0) {
+      newCurrent = 0
+    }
+    this.setState({current: newCurrent})
+    this.props.send(newCurrent, [this.props.playerIndex, 'items', this.props.itemIndex, 'durability', 'current'])
+  }
+
   render() {
     const progress = (this.state.current / this.state.total) * 100
     return (
       <ListGroupItem>
+        <ProgressBar
+          style={{
+            height: "30px",
+            marginBottom: "-34px",
+            width: "250px",
+            zIndex: '-1',
+          }}
+          className="progress-maring"
+          now={progress}
+          bsStyle={this.getStyle(progress)}
+        />
         <div className="row">
           <div className="col-md-3">
             {this.state.editMode ?
@@ -65,36 +89,29 @@ export class ItemBlock extends Component {
                 onBlur={this.onBlurWeapon}
               />
               :
-              <h4 onClick={this.onClickWeaponName}>
+              <h4
+                onClick={this.onClickWeaponName}
+                style={{
+                  marginLeft: "10px",
+                  color: "white",
+                  fontWeight: "bold",
+                  textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black",
+
+                }}
+              >
                 {this.state.weaponName}
               </h4>
             }
           </div>
           <div className="col-md-8">
-            <ProgressBar
-              style={{
-                height: "8px",
-                marginBottom: "-4px",
-                marginTop: "0px",
-                width: "130px",
-              }}
-              className="progress-maring"
-              now={progress}
-              bsStyle={this.getStyle(progress)}
-            />
             <Form inline>
               <FormGroup>
-                <InputGroup>
-                  <FormControl
-                    style={{ width: "50px" }}
-                    type="text"
-                    value={this.state.current}
-                    onChange={this.onChangeCurrent}
-                    onBlur={this.onBlurCurrent}
-                  />
+
+                {/* Base durability */}
+                <InputGroup style={{ marginRight: "20px" }}>
                   <InputGroup.Addon>
-                    /
-              </InputGroup.Addon>
+                    {this.state.current}
+                  </InputGroup.Addon>
                   <FormControl
                     style={{ width: "50px" }}
                     type="text"
@@ -102,21 +119,28 @@ export class ItemBlock extends Component {
                     onChange={this.onChangeTotal}
                     onBlur={this.onBlurTotal}
                   />
+                  <InputGroup.Button>
+                    <Button bsStyle="danger" onClick={this.onClickAdd}>{`- ${this.state.defaultAdd}`}</Button>
+                  </InputGroup.Button>
+                </InputGroup>
+
+                {/* Custom durability */}
+                <InputGroup>
+                  <FormControl
+                    style={{ width: "50px" }}
+                    type="text"
+                    value={this.state.customAdd}
+                    onChange={this.onChangeCustomAdd}
+                  />
+                  <InputGroup.Button>
+                    <Button bsStyle="danger" onClick={(e) => this.onClickAdd(e, true)}>{`${this.state.customAdd < 0 ? '+ ' : '- '}${this.state.customAdd < 0 ? Math.abs(this.state.customAdd) : this.state.customAdd}`}</Button>
+                  </InputGroup.Button>
                 </InputGroup>
               </FormGroup>
+
             </Form>
           </div>
-          <div className="col-md-1">
-            <Button
-              bsStyle="danger"
-              bsSize="xsmall"
-              onClick={() => this.props.onClickRemove(this.props.itemIndex)}
-            >
-              <Glyphicon glyph="trash" />
-            </Button>
-          </div>
-        </div>
-      </ListGroupItem>
+        </div>      </ListGroupItem>
     )
   }
 }
